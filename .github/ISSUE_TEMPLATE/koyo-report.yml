@@ -1,0 +1,44 @@
+name: 🍁 紅葉状況を報告
+description: 現地の観測情報を地図へ反映するためのレポートです。運営者が確認したものだけ公開されます。
+title: "[紅葉レポート] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        観測日時と場所が確認できる情報をお願いします。写真は本人が権利を持つものだけを添付してください。
+        スポットIDはサイトの「詳細」に表示されます。
+  - type: input
+    id: spot_id
+    attributes:
+      label: スポットID
+      placeholder: nikko-ryuzu
+      description: 地図に登録されている地点のID
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: 紅葉状況
+      options:
+        - 青葉
+        - 色づき始め
+        - 見頃
+        - 最盛期
+        - 落葉・見頃過ぎ
+    validations:
+      required: true
+  - type: input
+    id: observed_at
+    attributes:
+      label: 観測日（YYYY-MM-DD）
+      placeholder: "2026-10-18"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 写真・参考リンク・補足
+      description: 実際に撮影した写真や現地を確認できるURLなど
+      placeholder: "本日午後に撮影しました。湖畔は7割くらい色づいています。"
+    validations:
+      required: false
