@@ -1,66 +1,66 @@
 {
-  "generatedAt": "2026-10-18T05:51:21Z",
+  "generatedAt": "2026-10-18T05:53:09Z",
   "schemaVersion": 1,
   "sources": {
-    "nikkoOfficial": "robots-denied-or-unavailable",
+    "nikkoOfficial": "ok (12)",
     "communityReports": "ok (0)"
   },
   "reports": {
     "nikko-ryuzu": {
       "status": "full",
-      "observedAt": "2026-10-17",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月17日現在の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-yutaki": {
       "status": "full",
-      "observedAt": "2026-10-17",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月17日現在の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-senjogahara": {
       "status": "full",
-      "observedAt": "2026-10-17",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月17日現在の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-odashiro": {
       "status": "full",
-      "observedAt": "2026-10-17",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月17日現在の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-chuzenji": {
       "status": "peak",
-      "observedAt": "2026-10-17",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月17日現在の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-iroha": {
       "status": "starting",
-      "observedAt": "2026-10-17",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月17日現在の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-kirifuri": {
       "status": "full",
-      "observedAt": "2026-10-17",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月17日現在の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-ryuokyo": {
       "status": "starting",
@@ -68,7 +68,7 @@
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月18日更新の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-momiji": {
       "status": "peak",
@@ -76,7 +76,7 @@
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "山頂と麓で色づきに差がある"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-heike": {
       "status": "green",
@@ -84,7 +84,7 @@
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月15日更新の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-kirifuri-falls": {
       "status": "green",
@@ -92,7 +92,7 @@
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "10月15日更新の掲載状況"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-temples": {
       "status": "green",
@@ -100,7 +100,7 @@
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "9月13日更新。古い観測につき参考程度"
+      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nasu": {
       "status": "peak",
