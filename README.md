@@ -20,11 +20,11 @@
 
 ## 公開方法（GitHub Pages）
 
-1. GitHubで公開リポジトリを作成します。推奨名は **`koyo-live-map`**。このプロジェクトのファイルをすべて `main` ブランチ直下に配置してください。ZIP自体をアップするのではなく、展開した**中身**をアップします。
+1. **`Xenoah/map_autumn-leaves`** リポジトリの `main` ブランチにソースを配置します。初期リリースで配置済みです。
 2. リポジトリの **Settings → Actions → General → Workflow permissions** で **Read and write permissions** が必要な場合は有効化します（組織のポリシーで変更不可の場合は管理者に確認）。その後 **Settings → Pages → Build and deployment → Source** を **GitHub Actions** にします。
 3. **Actions** タブで `Update foliage data and publish map` を `Run workflow` で一度実行します。最初のpushで実行済みであれば、失敗分を再実行しても構いません。
 4. `https://xenoah.github.io/map_autumn-leaves/` に反映されます。初回公開までのGitHub側の処理状況はActionsページで確認してください。
-5. **Issues → Labels** で `verified`（運営承認）ラベルを作成すると現地レポートを受け入れられます。`koyo-report` ラベルも作成してください。
+5. **Issues → Labels** で `verified`（運営承認）ラベルを作成すると、運営が確認した現地レポートを地図に反映できます。`koyo-report` ラベルは任意です。
 
 ### Gitコマンドでの設置
 
@@ -37,7 +37,7 @@ git commit -m "feat: launch KOYO LIVE"
 git push origin main
 ```
 
-`Xenoah`以外のアカウントや別のリポジトリ名で公開する場合は、`assets/app.js` の `REPO`、`scripts/index.template.html` のGitHubリンク、`scripts/update_data.py` の `UA` を変更してください。
+`Xenoah`以外のアカウントや別のリポジトリ名に移行する場合は、`assets/app.js` の `REPO`、`scripts/index.template.html` のGitHubリンク、`scripts/update_data.py` の `UA` を変更してください。
 
 ## データ更新のしくみ
 
