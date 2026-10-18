@@ -7,6 +7,13 @@ ROOT=Path(__file__).resolve().parents[1]
 VALID={'full','peak','starting','green','past','unknown'}
 
 class FrontendMobileTests(unittest.TestCase):
+    def test_lightweight_offline_bootstrap(self):
+        builder=(ROOT/'scripts/build_embedded.py').read_text('utf-8')
+        self.assertIn("if not spot.get('candidate')",builder)
+        # The external static JSON must remain the source for full nationwide coverage.
+        frontend=(ROOT/'assets/app.js').read_text('utf-8')
+        self.assertIn("fetch('data/spots.json'",frontend)
+
     def test_mobile_camera_and_search_controls(self):
         script=(ROOT/'assets/app.js').read_text('utf-8')
         template=(ROOT/'scripts/index.template.html').read_text('utf-8')

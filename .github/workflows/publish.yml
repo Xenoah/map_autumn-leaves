@@ -86,6 +86,15 @@ jobs:
           if ! gh release view v1.1.0 >/dev/null 2>&1; then
             gh release create v1.1.0 --title "KOYO LIVE v1.1.0 | Nationwide map" --notes-file CHANGELOG.md --target "$GITHUB_SHA"
           fi
+      - name: Publish nationwide v1.2.0 release
+        if: github.event_name == 'push'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view v1.2.0 >/dev/null 2>&1; then
+            gh release create v1.2.0 --title "KOYO LIVE v1.2.0 | 1083 points, camera and mobile" --notes "全国47都道府県・1,083地点、カメラリンク23地点、スマホ優先の検索・表示と軽量地図。新規926地点は観賞候補で、現在の紅葉状況は未確認です。詳細は CHANGELOG.md を参照。" --target "$GITHUB_SHA"
+          fi
       - name: Prepare static site
         run: |
           mkdir -p dist/assets dist/data
