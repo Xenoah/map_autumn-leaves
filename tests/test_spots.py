@@ -9,10 +9,10 @@ VALID={'full','peak','starting','green','past','unknown'}
 class FrontendMobileTests(unittest.TestCase):
     def test_lightweight_offline_bootstrap(self):
         builder=(ROOT/'scripts/build_embedded.py').read_text('utf-8')
-        self.assertIn("if not spot.get('candidate')",builder)
+        self.assertIn('if not spot.get("candidate")',builder)
         # The external static JSON must remain the source for full nationwide coverage.
         frontend=(ROOT/'assets/app.js').read_text('utf-8')
-        self.assertIn("fetch('data/spots.json'",frontend)
+        self.assertIn("fetch('data/spots-lite.json'",frontend)
 
     def test_mobile_camera_and_search_controls(self):
         script=(ROOT/'assets/app.js').read_text('utf-8')
@@ -24,6 +24,13 @@ class FrontendMobileTests(unittest.TestCase):
         self.assertIn('id="mobile-cameras"',template)
         self.assertIn('min-height:44px',styles)
         self.assertIn("state.spotsLoadedAt",script)
+        self.assertIn("function decodeCatalog(",script)
+        self.assertIn("function loadSpotDetails(",script)
+        self.assertIn("state.detailCache.set(",script)
+        self.assertIn("tileSize:state.lowData?512:256",script)
+        self.assertIn("zoomOffset:state.lowData?-1:0",script)
+        self.assertIn('id="map-quality"',template)
+        self.assertNotIn("fonts.googleapis.com",template)
 
 class SpotsIntegrity(unittest.TestCase):
     @classmethod

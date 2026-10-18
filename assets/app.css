@@ -86,3 +86,16 @@
  .headline-stats .stat-card span:not(.stat-icon){font-size:8px}
 }
 @media (prefers-reduced-motion:reduce){.mobile-list-toggle{transition:none}}
+
+/* v1.2.1 - fast default rendering and operating-system fonts. */
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
+.map-tint,.map-shell:before{display:none}
+#map-quality{font-size:19px}
+#map-quality[aria-pressed="true"]{background:#203b30;color:#fff;border-color:#203b30}
+#map-quality:focus-visible{outline:3px solid #d49565}
+@media(max-width:820px){
+  .stat-card,.detail-card{backdrop-filter:none}
+  .stat-card{background:#fffffff0}
+  .detail-card{background:#fff}
+  .place-row:hover{transform:none}
+}
