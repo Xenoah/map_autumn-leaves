@@ -24,6 +24,15 @@ class SpotsIntegrity(unittest.TestCase):
         cls.spots=json.loads((ROOT/'data/spots.json').read_text('utf-8'))
         cls.seeds=json.loads((ROOT/'data/seed-observations.json').read_text('utf-8'))
 
+    def test_enriched_sources_are_attributed(self):
+        imported=[s for s in self.spots if s.get('candidate')]
+        for spot in imported:
+            with self.subTest(spot=spot['id']):
+                self.assertTrue(spot['id'].startswith('wiki-'))
+                self.assertEqual(spot['sourceName'],'Wikipedia / Wikidata（観光地位置情報）')
+                self.assertEqual(urlsplit(spot['sourceUrl']).hostname,'ja.wikipedia.org')
+                self.assertNotIn(spot['id'],self.seeds)
+
     def test_spots_unique_and_valid(self):
         self.assertGreaterEqual(len(self.spots),157)
         seen=set()

@@ -39,8 +39,10 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Check JavaScript syntax
         run: node --check assets/app.js
-      - name: Check browser JavaScript syntax
-        run: node --check assets/app.js
+      - name: Expand verified-coordinate sightseeing candidates once
+        run: python scripts/import_spots.py
+      - name: Validate expanded catalog
+        run: python -m unittest discover -s tests -v
       - name: Get latest observations (respect robots.txt)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -52,7 +54,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/live.json index.html
+          git add data/live.json data/spots.json data/catalog-import.done index.html
           if ! git diff --cached --quiet; then
             git commit -m "data: refresh observed foliage snapshots"
             for attempt in 1 2 3; do
