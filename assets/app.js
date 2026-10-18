@@ -28,7 +28,7 @@
   ].map(([region,prefectures])=>({region,prefectures:prefectures.split(' ')}));
   const PREF_REGION = Object.fromEntries(REGIONS.flatMap(r=>r.prefectures.map(pref=>[pref,r.region])));
   const prefectureDisplay = p => p==='北海道'?'北海道':p==='東京'?'東京都':(p==='大阪'||p==='京都')?p+'府':p+'県';
-  const state = {spots:[],reports:{},data:null,query:'',pref:'',status:'all',cameraOnly:false,selectedId:null,map:null,layers:null,markers:new Map(),geopoint:null,lastDataFetch:null,spotsLoadedAt:0,listLimit:120};
+  const state = {spots:[],reports:{},data:null,query:'',pref:'',status:'all',cameraOnly:false,selectedId:null,map:null,layers:null,markers:new Map(),geopoint:null,lastDataFetch:null,spotsLoadedAt:0,listLimit:120,initialBounds:null,tileLayer:null,lowData:true,detailCache:new Map(),prefectureLoads:new Map()};
   let noticeTimeout=0;
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const safeURL = url => {
@@ -39,10 +39,49 @@
   function fmtDate(s){if(!s)return '未確認';const d=new Date(s.length===10?s+'T00:00:00+09:00':s);return Number.isNaN(d.getTime())?'未確認':new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);}
   function elapsedDays(s){if(!s)return Infinity;const d=new Date(s+'T00:00:00+09:00');return Number.isNaN(d.getTime())?Infinity:Math.max(0,Math.floor((Date.now()-d.getTime())/86400000));}
   function currentReport(spot){const report=state.reports[spot.id];if(!report)return {status:'unknown',report:null,stale:false};const age=elapsedDays(report.observedAt);return {status:age<=9 && STATUS[report.status]? report.status : 'unknown', report,stale:age>9,age};}
+  // Small array-based index for map pins; full details are fetched only when selected.
+  function decodeCatalog(payload){
+    if(payload?.schemaVersion!==1 || !Array.isArray(payload.rows) || !payload.rows.length)
+      throw new Error('Unsupported compact index schema');
+    return payload.rows.map(row=>{
+      if(!Array.isArray(row) || row.length<9 || typeof row[0]!=='string' ||
+         typeof row[3]!=='number' || typeof row[4]!=='number')
+        throw new Error('Invalid compact spot');
+      const spot={id:row[0],name:row[1],prefecture:row[2],lat:row[3],lon:row[4],candidate:!!row[7]};
+      if(row[8])spot.elevation=row[8];
+      if(row[5])spot.camera={url:row[5],mode:row[6]||'directory'};
+      return spot;
+    });
+  }
+  function withDetails(spot){return {...spot,...(state.detailCache.get(spot.id)||{})};}
+  async function loadSpotDetails(spot){
+    if(state.detailCache.has(spot.id) || location.protocol==='file:')return;
+    const pref=spot.prefecture;
+    if(!state.prefectureLoads.has(pref)){
+      const uri='data/prefectures/'+encodeURIComponent(pref)+'.json';
+      const pending=fetch(uri,{cache:'force-cache'})
+        .then(r=>{if(!r.ok)throw new Error('detail HTTP '+r.status);return r.json();})
+        .then(items=>{
+          if(!Array.isArray(items))throw new Error('Invalid prefecture data');
+          for(const item of items)if(item && typeof item.id==='string')state.detailCache.set(item.id,item);
+        })
+        .catch(err=>{
+          state.prefectureLoads.delete(pref);
+          console.warn('Could not fetch prefecture details',err);
+          if(state.selectedId===spot.id)notify('地点の詳細情報を取得できませんでした');
+        });
+      state.prefectureLoads.set(pref,pending);
+    }
+    await state.prefectureLoads.get(pref);
+    if(state.selectedId===spot.id){
+      const selected=state.spots.find(s=>s.id===spot.id);
+      if(selected)renderSelectedDetail(selected);
+    }
+  }
   function sortedSpots(){return [...state.spots].sort((a,b)=>STATUS[currentReport(a).status].rank-STATUS[currentReport(b).status].rank || a.prefecture.localeCompare(b.prefecture,'ja') || a.name.localeCompare(b.name,'ja'));}
   function visibleSpots(){const words=state.query.trim().toLocaleLowerCase('ja');return sortedSpots().filter(s=>{
     const status=currentReport(s).status;
-    return (!words || `${s.name} ${s.prefecture} ${s.description}`.toLocaleLowerCase('ja').includes(words)) &&
+    return (!words || `${s.name} ${s.prefecture} ${s.description||''}`.toLocaleLowerCase('ja').includes(words)) &&
       (!state.pref || (state.pref.startsWith('region:') ? PREF_REGION[s.prefecture]===state.pref.slice(7) : state.pref===s.prefecture)) &&
       (!state.cameraOnly || !!s.camera) &&
       (state.status==='all'||(state.status==='best'?['full','peak'].includes(status):state.status===status));
@@ -184,7 +223,7 @@
     const sourceType=report?.kind==='official'?'公式観測':report?.kind==='community'?'現地レポート':report?.kind==='third_party'?'公開情報':spot.candidate?'紅葉観賞候補':'情報待ち';
     return `<div class="detail-accent" style="--c:${meta.color}"></div><div class="detail-inner"><div class="detail-head"><span class="detail-kicker">${safe(spot.prefecture).toUpperCase()} / AUTUMN GUIDE</span><button id="detail-close" class="detail-close" type="button" aria-label="詳細を閉じる">×</button></div>
       <h3 class="detail-name">${safe(spot.name)}</h3><div class="detail-tags"><span class="detail-tag main" style="--c:${meta.color}"><i></i>${meta.text}</span><span class="detail-tag">${sourceType}</span>${camera?`<span class="detail-tag">📹 ${spot.camera.mode==='directory'?'配信元のカメラ案内':'ライブカメラあり'}</span>`:''}</div>
-      <p class="detail-date ${stale?'detail-stale':''}">${dateInfo}</p><p class="detail-description">${safe(spot.description)}<br>例年の目安：${safe(spot.typicalSeason)}</p>
+      <p class="detail-date ${stale?'detail-stale':''}">${dateInfo}</p><p class="detail-description">${safe(spot.description||'地点情報を読み込み中です。')}<br>例年の目安：${safe(spot.typicalSeason||'確認中')}</p>
       <div class="detail-weather"><span id="weather-content" class="weather-loading">現地の天気を取得中...</span></div>
       <div class="detail-actions ${camera?'has-camera':''}">${camera?`<button type="button" class="detail-btn cam" id="detail-camera">📹 ${spot.camera.mode==='directory'?'カメラ案内を開く':'ライブカメラを見る'} ↗</button>`:''}<a class="detail-btn" target="_blank" rel="noopener noreferrer" href="${safeURL(googleMaps)}">⌖ 地図で開く ↗</a><a class="detail-btn secondary" target="_blank" rel="noopener noreferrer" href="${safeURL(submit)}">✎ 状況を報告 ↗</a></div>
       <div class="detail-extra"><span>${safe(report?.sourceName||spot.sourceName||'未確認')} ${stale?' / 古い報告':''}</span>${source}</div>
@@ -192,46 +231,106 @@
   }
   function updatePinSelection(){state.markers.forEach((marker,id)=>{marker.getElement()?.classList.toggle('marker-selected',id===state.selectedId);});}
   function bindDetailActions(spot){$('detail-close')?.addEventListener('click',closeDetail);$('detail-camera')?.addEventListener('click',()=>cameraOpen(spot));$('copy-spot-id')?.addEventListener('click',()=>{if(navigator.clipboard?.writeText){navigator.clipboard.writeText(spot.id).then(()=>notify('スポットIDをコピーしました')).catch(()=>notify('コピーできませんでした'));}else{notify('スポットIDを選択してコピーしてください');}});}
-  function selectSpot(id){const spot=state.spots.find(s=>s.id===id);if(!spot)return;state.selectedId=id;
-    $('detail').innerHTML=detailHTML(spot);$('detail').hidden=false;bindDetailActions(spot);
+  function renderSelectedDetail(spot){
+    const detailed=withDetails(spot);
+    $('detail').innerHTML=detailHTML(detailed);
+    $('detail').hidden=false;
+    bindDetailActions(detailed);
+    loadWeather(detailed);
+  }
+  function selectSpot(id){
+    const spot=state.spots.find(s=>s.id===id);if(!spot)return;
+    state.selectedId=id;renderSelectedDetail(spot);
     if(state.map){state.map.flyTo([spot.lat,spot.lon],Math.max(10,state.map.getZoom()),{duration:.55});updatePinSelection();}
-    $('sidebar').classList.remove('open');$('mobile-list-toggle').setAttribute('aria-expanded','false');renderList();loadWeather(spot);
+    $('sidebar').classList.remove('open');$('mobile-list-toggle').setAttribute('aria-expanded','false');
+    renderList();void loadSpotDetails(spot);
   }
   function closeDetail(){state.selectedId=null;$('detail').hidden=true;$('detail').innerHTML='';renderList();if(state.map)updatePinSelection();}
-  function render(){renderFilters();renderList();updateStats();renderMap();if(state.selectedId){const s=state.spots.find(s=>s.id===state.selectedId);if(s){$('detail').innerHTML=detailHTML(s);bindDetailActions(s);loadWeather(s);}}}
-  function initMap(){if(typeof L==='undefined'){$('map-fallback').innerHTML='<span class="fallback-emoji">🍁</span><span>地図ライブラリを取得できません</span><small>通信環境を確認してください。スポット一覧は利用できます。</small>';return;}
-    try{state.map=L.map('map',{center:[36.6,138.0],zoom:5,zoomControl:false,minZoom:3,maxZoom:17,preferCanvas:true});
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',updateWhenIdle:true,keepBuffer:1,detectRetina:false,crossOrigin:true}).addTo(state.map);
-      state.map.attributionControl.setPrefix('');state.layers=L.layerGroup().addTo(state.map);$('map-fallback').remove();renderMap();
+  function render(){
+    renderFilters();renderList();updateStats();renderMap();
+    if(state.selectedId){
+      const spot=state.spots.find(s=>s.id===state.selectedId);
+      if(spot){renderSelectedDetail(spot);void loadSpotDetails(spot);}
+    }
+  }
+  const OSM_URL='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  function createMapTiles(){
+    // A 512px display tile and zoomOffset -1 reuses OSM's regular 256px images.
+    // At the same screen size, requests roughly one quarter as many tiles.
+    return L.tileLayer(OSM_URL,{
+      tileSize:state.lowData?512:256,zoomOffset:state.lowData?-1:0,
+      maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+      updateWhenIdle:true,updateWhenZooming:false,keepBuffer:0,detectRetina:false,crossOrigin:true
+    });
+  }
+  function updateMapQualityButton(){
+    const b=$('map-quality');if(!b)return;
+    b.textContent=state.lowData?'⚡':'精';
+    b.title=state.lowData?'省データ表示（高精細に切り替える）':'高精細表示（省データに戻す）';
+    b.setAttribute('aria-pressed',String(!state.lowData));
+    b.setAttribute('aria-label',b.title);
+  }
+  function toggleMapQuality(){
+    if(!state.map)return;
+    state.lowData=!state.lowData;
+    if(state.tileLayer)state.map.removeLayer(state.tileLayer);
+    state.tileLayer=createMapTiles().addTo(state.map);
+    updateMapQualityButton();
+    notify(state.lowData?'省データ地図に切り替えました':'高精細なOSM地図に切り替えました');
+  }
+  function initMap(){
+    if(typeof L==='undefined'){
+      $('map-fallback').innerHTML='<span class="fallback-emoji">🍁</span><span>地図ライブラリを取得できません</span><small>通信環境を確認してください。スポット一覧は利用できます。</small>';
+      return;
+    }
+    try{
+      // Set final bounds before loading any tiles: no intermediate zoom requests.
+      state.map=L.map('map',{zoomControl:false,minZoom:3,maxZoom:17,preferCanvas:true,
+        zoomAnimation:false,fadeAnimation:false,markerZoomAnimation:false});
+      const points=state.initialBounds||state.spots.map(s=>[s.lat,s.lon]);
+      const bounds=L.latLngBounds(points);
+      if(bounds.isValid())state.map.fitBounds(bounds,{padding:[20,20],maxZoom:5,animate:false});
+      else state.map.setView([36.6,138.0],4);
+      state.tileLayer=createMapTiles().addTo(state.map);
+      updateMapQualityButton();
+      state.map.attributionControl.setPrefix('');
+      state.layers=L.layerGroup().addTo(state.map);
+      $('map-fallback').remove();
       L.control.zoom({position:'bottomright'}).addTo(state.map);
       state.map.on('moveend',renderMap);
-      const bounds=L.latLngBounds(state.spots.map(s=>[s.lat,s.lon]));
-      if(bounds.isValid())state.map.fitBounds(bounds,{padding:[36,36],maxZoom:5,animate:false});
+      renderMap();
     }catch(e){console.warn('Map init failed',e);state.map=null;}
   }
   async function loadLive({silent=false}={}){
     const start=Date.now();$('refresh').classList.add('spin');
     try{
-      if(location.protocol==='file:'){if(!silent)notify('ローカル表示です。公開後は自動でデータを更新します');return;}
-      // Spot catalog is large, so poll it at most hourly; observations update every five minutes.
+      if(location.protocol==='file:'){
+        if(!silent)notify('ローカル表示です。公開後は自動でデータを更新します');
+        return;
+      }
       const refreshCatalog=!state.spotsLoadedAt || Date.now()-state.spotsLoadedAt>60*60*1000;
       const [catalogResponse,liveResponse]=await Promise.all([
-        refreshCatalog?fetch('data/spots.json',{cache:'no-cache'}):Promise.resolve(null),
+        refreshCatalog?fetch('data/spots-lite.json',{cache:'no-cache'}):Promise.resolve(null),
         fetch('data/live.json',{cache:'no-store'})
       ]);
       if((catalogResponse&&!catalogResponse.ok)||!liveResponse.ok)throw new Error('HTTP error');
-      const [spots,data]=await Promise.all([
-        catalogResponse?catalogResponse.json():Promise.resolve(state.spots),
+      const [catalog,live]=await Promise.all([
+        catalogResponse?catalogResponse.json():Promise.resolve(null),
         liveResponse.json()
       ]);
-      if(!Array.isArray(spots)||!data?.reports||typeof data.reports!=='object')throw new Error('invalid JSON');
-      const old=state.data?.generatedAt;
-      state.spots=spots;state.reports=data.reports;state.data=data;state.lastDataFetch=new Date();
+      if(!live?.reports || typeof live.reports!=='object')throw new Error('Invalid observations');
+      const spots=catalogResponse?decodeCatalog(catalog):state.spots;
+      const previous=state.data?.generatedAt;
+      state.spots=spots;state.reports=live.reports;state.data=live;state.lastDataFetch=new Date();
       if(catalogResponse)state.spotsLoadedAt=Date.now();
-      createSelectOptions();render();
-      if(!silent)notify(data.generatedAt===old?'確認完了。情報は最新の取得結果です':'最新データを読み込みました');
-    }catch(e){if(!silent)notify('最新データを取得できません。手元の情報を表示しています');console.warn('Could not update data',e)}
-    finally{setTimeout(()=>$('refresh').classList.remove('spin'),Math.max(250,550-(Date.now()-start)))}
+      if(catalogResponse||previous!==live.generatedAt){createSelectOptions();render();}
+      if(!silent)notify(live.generatedAt===previous?'確認完了。最新の取得結果です':'最新データを読み込みました');
+    }catch(e){
+      if(!silent)notify('最新データを取得できません。保存済みの地図を表示しています');
+      console.warn('Could not update lightweight map data',e);
+    }finally{
+      setTimeout(()=>$('refresh').classList.remove('spin'),Math.max(250,550-(Date.now()-start)));
+    }
   }
   function wireControls(){
     $('search').addEventListener('input',e=>{state.query=e.target.value;const mobile=$('mobile-search');if(mobile)mobile.value=state.query;applySearchFilters()});
@@ -248,6 +347,7 @@
       const button=e.target.closest('button[data-id]');if(button)selectSpot(button.dataset.id);
     });
     $('refresh').addEventListener('click',()=>loadLive());
+    $('map-quality')?.addEventListener('click',toggleMapQuality);
     $('fit').addEventListener('click',()=>{if(!state.map)return;const p=visibleSpots();if(p.length)state.map.fitBounds(L.latLngBounds(p.map(s=>[s.lat,s.lon])),{padding:[45,45],maxZoom:11})});
     $('locate').addEventListener('click',()=>{if(!navigator.geolocation){notify('位置情報に対応していません');return}navigator.geolocation.getCurrentPosition(p=>{state.map?.flyTo([p.coords.latitude,p.coords.longitude],10);notify('現在地の周辺を表示しています')},()=>notify('位置情報の利用が許可されていません'),{timeout:9000,enableHighAccuracy:false})});
     $('mobile-list-toggle').addEventListener('click',()=>{const el=$('sidebar'),open=el.classList.toggle('open');$('mobile-list-toggle').setAttribute('aria-expanded',String(open));syncMobileControls();if(open)$('search').focus({preventScroll:true});});
@@ -256,6 +356,8 @@
   function main(){let bootstrap={spots:[],live:{reports:{},generatedAt:null}};
     try{bootstrap=JSON.parse($('bootstrap-data').textContent);}catch(e){console.warn('Missing offline data',e)}
     state.spots=bootstrap.spots||[];state.reports=bootstrap.live?.reports||{};state.data=bootstrap.live||null;
+    state.initialBounds=bootstrap.bounds||null;
+    for(const item of state.spots)state.detailCache.set(item.id,item);
     $('today-label').textContent=tokyoDate().replace(/\//g,'.').toUpperCase();const year=new Intl.DateTimeFormat('en',{timeZone:'Asia/Tokyo',year:'numeric'}).format(new Date());$('season-year').textContent=year;$('map-kicker-year').textContent=year;
     createSelectOptions();wireControls();render();initMap();
     loadLive({silent:true});setInterval(()=>loadLive({silent:true}),5*60*1000);
