@@ -106,6 +106,9 @@ def already_present(candidate: dict, known: list[dict]) -> bool:
 
 def source_row_to_spot(row: dict) -> dict | None:
     name, pref = row["name"].strip(), prefecture(row["region"].strip())
+    # Source entry is listed under Mie but the named river point lies in Kyoto.
+    if name == "木津川 (京都府)":
+        pref = "京都"
     try:
         lat, lon = float(row["lat"]), float(row["lng"])
     except (ValueError, KeyError, TypeError):

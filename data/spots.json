@@ -522,7 +522,12 @@
     "lat": 42.9654,
     "lon": 141.1645,
     "typicalSeason": "10月上旬〜中旬",
-    "description": "温泉街と豊平川沿いの色づき。"
+    "description": "温泉街と豊平川沿いの色づき。",
+    "camera": {
+      "url": "https://jozankei.jp/",
+      "title": "定山渓観光協会・二見吊橋付近（期間限定）",
+      "mode": "directory"
+    }
   },
   {
     "id": "hokkaido-shiretoko",
@@ -644,7 +649,12 @@
     "lat": 39.5987,
     "lon": 140.5619,
     "typicalSeason": "10月下旬〜11月上旬",
-    "description": "武家屋敷の黒塀と紅葉。"
+    "description": "武家屋敷の黒塀と紅葉。",
+    "camera": {
+      "url": "https://www.city.semboku.akita.jp/sightseeing/info/camera.html",
+      "title": "仙北市公式・角館武家屋敷通りライブカメラ",
+      "mode": "directory"
+    }
   },
   {
     "id": "akita-tazawako",
@@ -653,7 +663,12 @@
     "lat": 39.7167,
     "lon": 140.6673,
     "typicalSeason": "10月中旬〜下旬",
-    "description": "湖周辺の木々と山々の色づき。"
+    "description": "湖周辺の木々と山々の色づき。",
+    "camera": {
+      "url": "https://www.city.semboku.akita.jp/sightseeing/info/camera.html",
+      "title": "仙北市公式・田沢湖畔ライブカメラ",
+      "mode": "directory"
+    }
   },
   {
     "id": "yamagata-yamadera",
@@ -915,7 +930,12 @@
     "lat": 35.0208,
     "lon": 136.4174,
     "typicalSeason": "10月中旬〜11月上旬",
-    "description": "ロープウェイ沿線の山岳紅葉。"
+    "description": "ロープウェイ沿線の山岳紅葉。",
+    "camera": {
+      "url": "https://www.gozaisho.co.jp/livecamera/",
+      "title": "御在所ロープウエイ公式・山頂定点画像（営業中、1分間隔）",
+      "mode": "image"
+    }
   },
   {
     "id": "mie-akame",
@@ -1546,7 +1566,7 @@
   {
     "id": "wiki-c1c52b459ad50e",
     "name": "木津川 (京都府)",
-    "prefecture": "三重",
+    "prefecture": "京都",
     "lat": 34.834272,
     "lon": 135.771497,
     "typicalSeason": "地域・標高による（未確認）",
@@ -4225,8 +4245,8 @@
     "id": "wiki-11418400374d5b",
     "name": "吉野熊野国立公園",
     "prefecture": "奈良",
-    "lat": 34.0,
-    "lon": 136.0,
+    "lat": 34,
+    "lon": 136,
     "typicalSeason": "地域・標高による（未確認）",
     "description": "自然景勝地の観賞候補。現在の紅葉状況は未確認です。",
     "candidate": true,
@@ -9133,7 +9153,12 @@
     "candidate": true,
     "category": "山",
     "sourceName": "Wikipedia / Wikidata（観光地位置情報）",
-    "sourceUrl": "https://ja.wikipedia.org/wiki/%E9%98%BF%E8%98%87%E5%B1%B1"
+    "sourceUrl": "https://ja.wikipedia.org/wiki/%E9%98%BF%E8%98%87%E5%B1%B1",
+    "camera": {
+      "url": "https://www.npfj.or.jp/branch-list/aso/",
+      "title": "自然公園財団・阿蘇中岳/草千里4Kライブカメラ",
+      "mode": "directory"
+    }
   },
   {
     "id": "wiki-597a0128757301",
@@ -9530,7 +9555,7 @@
     "name": "富士箱根伊豆国立公園",
     "prefecture": "神奈川",
     "lat": 34.66667,
-    "lon": 139.0,
+    "lon": 139,
     "typicalSeason": "地域・標高による（未確認）",
     "description": "自然景勝地の観賞候補。現在の紅葉状況は未確認です。",
     "candidate": true,
@@ -11850,7 +11875,12 @@
     "candidate": true,
     "category": "自然",
     "sourceName": "Wikipedia / Wikidata（観光地位置情報）",
-    "sourceUrl": "https://ja.wikipedia.org/wiki/%E5%BF%97%E8%B3%80%E9%AB%98%E5%8E%9F"
+    "sourceUrl": "https://ja.wikipedia.org/wiki/%E5%BF%97%E8%B3%80%E9%AB%98%E5%8E%9F",
+    "camera": {
+      "url": "https://www.shigakogen.gr.jp/live/index.html",
+      "title": "志賀高原観光協会・動画/静止画カメラ一覧",
+      "mode": "directory"
+    }
   },
   {
     "id": "wiki-0aff0e820f7d05",
