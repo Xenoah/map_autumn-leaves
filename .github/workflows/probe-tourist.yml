@@ -29,6 +29,10 @@ jobs:
                   if val and any(k in val for k in ('紅葉','もみじ','モミジ','楓','カエデ','黄葉','イチョウ','銀杏')):
                       by_col[col]+=1
           print('FOILAGE_KEYWORD_COUNTS:',dict(by_col))
+          print('SERIES_COUNTS:',dict(collections.Counter(x['series'] for x in rows).most_common()))
+          print('RANK_COUNTS:',dict(collections.Counter(x['rank'] for x in rows).most_common()))
+          print('SERIES_RANK_TABLE:',{series:dict(collections.Counter(x['rank'] for x in rows if x['series']==series)) for series in ('公園','庭園','自然','渓谷','滝','山','湖','景勝地','寺院','神社','寺社','城','城跡','温泉')})
+          print('PUBLIC_PARKS_SAMPLE:',[(x['name'],x['series'],x['rank']) for x in rows if x['series'] in ('公園','庭園')][:45])
           print('EXAMPLES:')
           n=0
           for row in rows:
