@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#101b19">
-  <meta name="description" content="関東・甲信の紅葉の色づき状況と現地ライブカメラを地図でチェック。公式情報・現地報告・観測日を区別して表示します。">
+  <meta name="description" content="全国47都道府県の紅葉の色づき状況と現地ライブカメラを地図でチェック。公式情報・現地報告・観測日を区別して表示します。">
   <title>KOYO LIVE | 紅葉の現在地がわかる地図</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,16 +33,17 @@
       <aside class="sidebar" id="sidebar" aria-label="紅葉スポット検索と一覧">
         <div class="sidebar-scroll">
           <section class="intro-block">
-            <div class="eyebrow"><span class="small-line"></span> KANTO + KOSHIN</div>
+            <div class="eyebrow"><span class="small-line"></span> ALL JAPAN · 47 PREFECTURES</div>
             <h1>紅葉の<br><span>現在地</span>を見つけよう。</h1>
-            <p>今どこが色づいている？ 現地情報とライブカメラで、秋のベストスポットを探そう。</p>
+            <p>北海道から沖縄まで47都道府県の秋景色を検索。確認済みの紅葉情報と現地ライブカメラを組み合わせて表示します。</p>
+            <p class="intro-caution">※ 現地データ未取得の地点は「未確認」。天気や例年の時期から実測状況を推測しません。</p>
           </section>
           <div class="date-card">
             <span class="date-icon" aria-hidden="true">✳</span>
             <div><div class="date-title" id="today-label">2026.10.18 SUN</div><div class="date-caption" id="sync-caption">データを準備しています…</div></div>
           </div>
           <section class="search-section">
-            <div class="section-row"><h2>スポットを探す</h2><span id="total-count" class="subtle-count">43 LOCATIONS</span></div>
+            <div class="section-row"><h2>スポットを探す</h2><span id="total-count" class="subtle-count">157 LOCATIONS</span></div>
             <label class="search-box"><span class="search-icon" aria-hidden="true">⌕</span><input type="search" id="search" placeholder="場所・県名で検索" autocomplete="off" aria-label="紅葉スポット検索"><kbd>/</kbd></label>
             <div class="filter-controls">
               <label class="select-wrap"><span class="select-icon">⌖</span><select id="prefecture" aria-label="地域を選択"><option value="">すべての地域</option></select><span class="select-arrow">⌄</span></label>
@@ -61,7 +62,7 @@
         <div class="sidebar-footer">STATUS DATA <span>公式・現地報告に基づく</span><span class="footer-leaf">🍂</span></div>
       </aside>
       <section class="map-shell" aria-label="紅葉状況を示す地図">
-        <div id="map" aria-label="関東甲信の紅葉スポット地図" role="application"><div class="map-fallback" id="map-fallback"><span class="fallback-emoji">🍁</span><span>マップを読み込んでいます</span><small>地図表示にはインターネット接続が必要です</small></div></div>
+        <div id="map" aria-label="全国の紅葉スポット地図" role="application"><div class="map-fallback" id="map-fallback"><span class="fallback-emoji">🍁</span><span>マップを読み込んでいます</span><small>地図表示にはインターネット接続が必要です</small></div></div>
         <div class="map-tint"></div>
         <div class="map-top-overlay">
           <span class="map-kicker">AUTUMN FOLIAGE TRACKER <span class="map-kicker-rule"></span> <span id="map-kicker-year">2026</span></span>

@@ -1,3 +1,12 @@
+"""Legacy 2026 Kanto-only bootstrap.
+
+The canonical national inventory is data/spots.json. Running this file without
+explicit opt-in would destroy newer prefecture entries, so it is disabled.
+"""
+import os
+if os.environ.get('ALLOW_LEGACY_SEED_RESET') != '1':
+    raise SystemExit('Refusing to reset the national spots inventory. Use data/spots.json directly; set ALLOW_LEGACY_SEED_RESET=1 only for a deliberate historical rebuild.')
+
 import json
 from pathlib import Path
 D=Path(__file__).resolve().parents[1]/'data'

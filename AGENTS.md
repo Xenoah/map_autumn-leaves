@@ -18,3 +18,11 @@
 5. GitHub Pagesで相対パスが機能することを保ち、鍵をGitに入れない。GitHub Actionsの権限は必要最小限。
 6. 変更後に `python -m unittest discover -s tests -v`、`node --check assets/app.js`、`python scripts/build_embedded.py` を実行し、生成 `index.html` もコミット。
 7. スポットが増減したらREADMEの収録地点数とカメラ数も更新する。
+
+## 全国版 v1.1.0 の運用注意
+
+- `data/spots.json` は47都道府県の地理データの正本。地点IDは永続的に維持すること。
+- `scripts/make_seed.py` は関東43地点の旧初期化スクリプト。通常実行しない（全国データが消える）。
+- `assets/app.js` の `REGIONS` と `tests/test_spots.py` は47都道府県の対応表を同期する。
+- 観測データ未取得の地域に推定ステータスを与えない。沖縄には本州型紅葉の見頃を設定しない。
+- GitHub Actionsのpush競合が再発してもPagesデプロイを中断しない。ワークフロー成功と観測情報の更新は別の概念。

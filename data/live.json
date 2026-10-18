@@ -125,6 +125,14 @@
       "sourceName": "ウェザーニュース",
       "sourceUrl": "https://www.weathernews.jp/koyo/spot/24216/",
       "note": "10月13日の判定。10月18日頃から見頃の予測あり"
+    },
+    "toyama-murodo": {
+      "status": "past",
+      "observedAt": "2026-10-16",
+      "kind": "official",
+      "sourceName": "立山黒部アルペンルート",
+      "sourceUrl": "https://www.alpen-route.com/autumn-leaves/",
+      "note": "10月16日の公式色づき一覧で室堂平は「落葉」。高山は積雪に注意。"
     }
   }
 }

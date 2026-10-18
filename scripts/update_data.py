@@ -20,7 +20,7 @@ from zoneinfo import ZoneInfo
 ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/'data'
 NIKKO='https://www.nikko-kankou.org/flowering/autumn-leaves'
-UA='KoyoLiveMap/1.0 (+https://github.com/Xenoah/map_autumn-leaves; factual status only)'
+UA='KoyoLiveMap/1.1 (+https://github.com/Xenoah/map_autumn-leaves; factual status only)'
 MAP={'◎':'full','〇':'peak','◯':'peak','○':'peak','△':'starting','✕':'green','×':'green','▼':'past'}
 ISSUE_STATUSES={'青葉':'green','色づき始め':'starting','見頃':'peak','最盛期':'full','落葉・見頃過ぎ':'past'}
 DATE_RE=re.compile(r'最終更新日\s*[：:]\s*(20\d{2})年\s*(\d{1,2})月\s*(\d{1,2})日')

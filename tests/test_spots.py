@@ -13,18 +13,23 @@ class SpotsIntegrity(unittest.TestCase):
         cls.seeds=json.loads((ROOT/'data/seed-observations.json').read_text('utf-8'))
 
     def test_spots_unique_and_valid(self):
-        self.assertGreater(len(self.spots),20)
+        self.assertGreaterEqual(len(self.spots),157)
         seen=set()
         for s in self.spots:
             with self.subTest(spot=s.get('id')):
                 self.assertNotIn(s['id'],seen)
                 seen.add(s['id'])
                 self.assertTrue(s['name'] and s['prefecture'])
-                self.assertTrue(32.0 < s['lat'] < 40.0)
-                self.assertTrue(136.0 < s['lon'] < 142.0)
+                self.assertTrue(24.0 < s['lat'] < 46.0)
+                self.assertTrue(122.0 < s['lon'] < 148.0)
                 if c:=s.get('camera'):
                     self.assertEqual(urlsplit(c['url']).scheme,'https')
                     self.assertTrue(urlsplit(c['url']).hostname)
+
+    def test_every_prefecture_is_covered(self):
+        prefectures=set('北海道 青森 岩手 宮城 秋田 山形 福島 茨城 栃木 群馬 埼玉 千葉 東京 神奈川 新潟 富山 石川 福井 山梨 長野 岐阜 静岡 愛知 三重 滋賀 京都 大阪 兵庫 奈良 和歌山 鳥取 島根 岡山 広島 山口 徳島 香川 愛媛 高知 福岡 佐賀 長崎 熊本 大分 宮崎 鹿児島 沖縄'.split())
+        covered={s['prefecture'] for s in self.spots}
+        self.assertEqual(covered,prefectures)
 
     def test_observations_link_existing_spots(self):
         ids={s['id'] for s in self.spots}

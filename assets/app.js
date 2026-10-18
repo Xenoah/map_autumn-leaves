@@ -13,6 +13,20 @@
     past: {text:'見頃過ぎ',color:'#a39a90',rank:4},
     unknown: {text:'未確認',color:'#98a39c',rank:5}
   };
+  const REGIONS = [
+    ['北海道', '北海道'],
+    ['東北', '青森 岩手 宮城 秋田 山形 福島'],
+    ['関東', '茨城 栃木 群馬 埼玉 千葉 東京 神奈川'],
+    ['甲信越', '新潟 山梨 長野'],
+    ['北陸', '富山 石川 福井'],
+    ['東海', '岐阜 静岡 愛知 三重'],
+    ['近畿', '滋賀 京都 大阪 兵庫 奈良 和歌山'],
+    ['中国', '鳥取 島根 岡山 広島 山口'],
+    ['四国', '徳島 香川 愛媛 高知'],
+    ['九州・沖縄', '福岡 佐賀 長崎 熊本 大分 宮崎 鹿児島 沖縄']
+  ].map(([region,prefectures])=>({region,prefectures:prefectures.split(' ')}));
+  const PREF_REGION = Object.fromEntries(REGIONS.flatMap(r=>r.prefectures.map(pref=>[pref,r.region])));
+  const prefectureDisplay = p => p==='北海道'?'北海道':p==='東京'?'東京都':(p==='大阪'||p==='京都')?p+'府':p+'県';
   const state = {spots:[],reports:{},data:null,query:'',pref:'',status:'all',cameraOnly:false,selectedId:null,map:null,layers:null,markers:new Map(),geopoint:null,lastDataFetch:null};
   let noticeTimeout=0;
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -28,11 +42,24 @@
   function visibleSpots(){const words=state.query.trim().toLocaleLowerCase('ja');return sortedSpots().filter(s=>{
     const status=currentReport(s).status;
     return (!words || `${s.name} ${s.prefecture} ${s.description}`.toLocaleLowerCase('ja').includes(words)) &&
-      (!state.pref || state.pref===s.prefecture) &&
+      (!state.pref || (state.pref.startsWith('region:') ? PREF_REGION[s.prefecture]===state.pref.slice(7) : state.pref===s.prefecture)) &&
       (!state.cameraOnly || !!s.camera) &&
       (state.status==='all'||state.status===status);
   });}
-  function createSelectOptions(){const prefectures=[...new Set(state.spots.map(s=>s.prefecture))];$('prefecture').innerHTML='<option value="">すべての地域</option>'+prefectures.map(p=>`<option value="${safe(p)}">${safe(p)}${p==='東京'?'都':(p==='京都'||p==='大阪')?'府':'県'}</option>`).join('');}
+  function createSelectOptions(){
+    const available=new Set(state.spots.map(s=>s.prefecture));
+    const previous=state.pref;
+    $('prefecture').innerHTML='<option value="">全国（すべての地域）</option>'+
+      REGIONS.map(r=>{
+        const prefs=r.prefectures.filter(p=>available.has(p));
+        if(!prefs.length)return '';
+        return '<optgroup label="'+safe(r.region)+'">'+
+          '<option value="region:'+safe(r.region)+'">▸ '+safe(r.region)+'全体</option>'+
+          prefs.map(p=>'<option value="'+safe(p)+'">'+safe(prefectureDisplay(p))+'</option>').join('')+
+          '</optgroup>';
+      }).join('');
+    $('prefecture').value=previous;
+  }
   function renderFilters(){const labels=[['all','すべて'],['full','最盛期'],['peak','見頃'],['starting','色づき始め'],['green','青葉'],['past','終盤'],['unknown','未確認']];
     $('status-filters').innerHTML=labels.map(([key,label])=>{
       const n=key==='all'?state.spots.length:state.spots.filter(s=>currentReport(s).status===key).length;
@@ -60,12 +87,47 @@
   function pinIcon(spot,status){const color=STATUS[status].color;
     return L.divIcon({className:`leaflet-div-icon marker-${status} ${state.selectedId===spot.id?'marker-selected':''}`,html:`<div class="camera-pin" style="--c:${color}"><span class="marker-core"></span>${spot.camera?`<button class="marker-cam" data-camera="${safe(spot.id)}" type="button" aria-label="${safe(spot.name)}のライブカメラを別ウィンドウで開く" title="ライブカメラを別ウィンドウで開く">📹</button>`:''}</div>`,iconSize:[44,50],iconAnchor:[20,39]});
   }
-  function renderMap(){if(!state.map)return;state.layers.clearLayers();state.markers.clear();const visible=visibleSpots();for(const spot of visible){
-      const status=currentReport(spot).status,marker=L.marker([spot.lat,spot.lon],{icon:pinIcon(spot,status),riseOnHover:true});
-      marker.on('click',()=>selectSpot(spot.id));
-      marker.on('add',()=>{const btn=marker.getElement()?.querySelector('.marker-cam');if(btn){L.DomEvent.disableClickPropagation(btn);L.DomEvent.disableScrollPropagation(btn);btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();cameraOpen(spot)});}});
-      state.layers.addLayer(marker);state.markers.set(spot.id,marker);
-    }}
+  function addSpotMarker(spot){
+    const status=currentReport(spot).status;
+    const marker=L.marker([spot.lat,spot.lon],{icon:pinIcon(spot,status),riseOnHover:true});
+    marker.on('click',()=>selectSpot(spot.id));
+    marker.on('add',()=>{
+      const btn=marker.getElement()?.querySelector('.marker-cam');
+      if(btn){
+        L.DomEvent.disableClickPropagation(btn);
+        L.DomEvent.disableScrollPropagation(btn);
+        btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();cameraOpen(spot)});
+      }
+    });
+    state.layers.addLayer(marker);
+    state.markers.set(spot.id,marker);
+  }
+  function renderMap(){
+    if(!state.map)return;
+    state.layers.clearLayers();state.markers.clear();
+    const visible=visibleSpots(),zoom=state.map.getZoom();
+    if(zoom>=8 || visible.length<13){visible.forEach(addSpotMarker);return;}
+    // Native lightweight clusters keep 157 spots readable without a third-party plugin.
+    const cell=zoom<=4?5:zoom===5?2.4:zoom===6?1.2:0.6;
+    const bins=new Map();
+    for(const spot of visible){
+      const key=Math.floor(spot.lat/cell)+':'+Math.floor(spot.lon/cell);
+      if(!bins.has(key))bins.set(key,[]);
+      bins.get(key).push(spot);
+    }
+    for(const group of bins.values()){
+      if(group.length===1){addSpotMarker(group[0]);continue;}
+      const lat=group.reduce((sum,s)=>sum+s.lat,0)/group.length;
+      const lon=group.reduce((sum,s)=>sum+s.lon,0)/group.length;
+      const cameras=group.filter(s=>s.camera).length;
+      const html='<div class="cluster-pin"><b>'+group.length+'</b><small>'+(cameras?'📹 '+cameras:'SPOTS')+'</small></div>';
+      const icon=L.divIcon({className:'koyo-cluster-icon',html,iconSize:[52,52],iconAnchor:[26,26]});
+      const marker=L.marker([lat,lon],{icon,riseOnHover:true});
+      marker.bindTooltip(group.length+'地点 · クリックして拡大');
+      marker.on('click',()=>state.map.flyTo([lat,lon],Math.min(10,zoom+2),{duration:.55}));
+      state.layers.addLayer(marker);
+    }
+  }
   function weatherText(code){if(code===0)return '快晴';if(code===1||code===2)return '晴れ';if(code===3)return '曇り';if(code>=45&&code<=48)return '霧';if(code>=51&&code<=67)return '雨';if(code>=71&&code<=86)return '雪';if(code>=95)return '雷雨';return '天気確認中'}
   const weatherCache=new Map();
   async function loadWeather(spot){const holder=$('weather-content');if(!holder)return;
@@ -101,10 +163,13 @@
   function closeDetail(){state.selectedId=null;$('detail').hidden=true;$('detail').innerHTML='';renderList();if(state.map)updatePinSelection();}
   function render(){renderFilters();renderList();updateStats();renderMap();if(state.selectedId){const s=state.spots.find(s=>s.id===state.selectedId);if(s){$('detail').innerHTML=detailHTML(s);bindDetailActions(s);loadWeather(s);}}}
   function initMap(){if(typeof L==='undefined'){$('map-fallback').innerHTML='<span class="fallback-emoji">🍁</span><span>地図ライブラリを取得できません</span><small>通信環境を確認してください。スポット一覧は利用できます。</small>';return;}
-    try{state.map=L.map('map',{center:[36.17,139.30],zoom:8,zoomControl:false,minZoom:5,maxZoom:17,preferCanvas:true});
+    try{state.map=L.map('map',{center:[36.6,138.0],zoom:5,zoomControl:false,minZoom:3,maxZoom:17,preferCanvas:true});
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors',crossOrigin:true}).addTo(state.map);
       state.map.attributionControl.setPrefix('');state.layers=L.layerGroup().addTo(state.map);$('map-fallback').remove();renderMap();
       L.control.zoom({position:'bottomright'}).addTo(state.map);
+      state.map.on('zoomend',renderMap);
+      const bounds=L.latLngBounds(state.spots.map(s=>[s.lat,s.lon]));
+      if(bounds.isValid())state.map.fitBounds(bounds,{padding:[36,36],maxZoom:5,animate:false});
     }catch(e){console.warn('Map init failed',e);state.map=null;}
   }
   async function loadLive({silent=false}={}){
