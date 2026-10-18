@@ -42,10 +42,17 @@ def permitted(url):
     rp=urllib.robotparser.RobotFileParser()
     rp.set_url(robots_url)
     try:
-        rp.read()
+        # RobotFileParser.read() has no configurable network timeout and may
+        # stall the scheduled Pages release. Fetch and parse with a hard timeout.
+        req=urllib.request.Request(robots_url,headers={'User-Agent':UA})
+        with urllib.request.urlopen(req,timeout=8) as response:
+            if response.status!=200:
+                return False
+            body=response.read(100_000).decode('utf-8',errors='replace')
+        rp.parse(body.splitlines())
         return rp.can_fetch(UA,url)
     except Exception:
-        return False  # Conservative: don't fetch if robots policy can't be checked.
+        return False  # Fail closed: no official crawl without robots permission.
 
 def extract_nikko(text, spots):
     """Parse status glyph + publication date from readable page text.

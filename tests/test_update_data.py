@@ -1,8 +1,9 @@
 import unittest
+from unittest.mock import patch
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from update_data import extract_nikko,fields_from_issue,parse_verified_issue,merge
+from update_data import extract_nikko,fields_from_issue,parse_verified_issue,merge,permitted
 
 class DataUpdateTests(unittest.TestCase):
     def setUp(self):
@@ -20,6 +21,22 @@ class DataUpdateTests(unittest.TestCase):
         self.assertEqual(parse_verified_issue(issue,{'nikko-ryuzu'},dt.date(2026,10,18))[1]['status'],'peak')
         issue['labels'].pop(0)
         self.assertIsNone(parse_verified_issue(issue,{'nikko-ryuzu'},dt.date(2026,10,18)))
+    def test_robots_unreachable_is_denied(self):
+        with patch('update_data.urllib.request.urlopen',side_effect=TimeoutError('robots timeout')) as opener:
+            self.assertFalse(permitted('https://example.com/flowering/autumn-leaves'))
+        self.assertEqual(opener.call_args.kwargs['timeout'],8)
+
+    def test_robots_disallows_paths(self):
+        import io
+        class FakeResponse:
+            status=200
+            def __enter__(self): return self
+            def __exit__(self,*args): pass
+            def read(self,n): return b'User-agent: *\\nDisallow: /private\\nAllow: /flowering'
+        with patch('update_data.urllib.request.urlopen',return_value=FakeResponse()):
+            self.assertTrue(permitted('https://example.com/flowering'))
+            self.assertFalse(permitted('https://example.com/private'))
+
     def test_merge_newer(self):
         a={'x':{'status':'green','observedAt':'2026-10-18'}}
         b={'x':{'status':'peak','observedAt':'2026-10-17'}}
