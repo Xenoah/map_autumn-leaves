@@ -1,0 +1,122 @@
+{
+  "nikko-ryuzu": {
+    "status": "full",
+    "observedAt": "2026-10-17",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月17日現在の掲載状況"
+  },
+  "nikko-yutaki": {
+    "status": "full",
+    "observedAt": "2026-10-17",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月17日現在の掲載状況"
+  },
+  "nikko-senjogahara": {
+    "status": "full",
+    "observedAt": "2026-10-17",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月17日現在の掲載状況"
+  },
+  "nikko-odashiro": {
+    "status": "full",
+    "observedAt": "2026-10-17",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月17日現在の掲載状況"
+  },
+  "nikko-chuzenji": {
+    "status": "peak",
+    "observedAt": "2026-10-17",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月17日現在の掲載状況"
+  },
+  "nikko-iroha": {
+    "status": "starting",
+    "observedAt": "2026-10-17",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月17日現在の掲載状況"
+  },
+  "nikko-kirifuri": {
+    "status": "full",
+    "observedAt": "2026-10-17",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月17日現在の掲載状況"
+  },
+  "nikko-ryuokyo": {
+    "status": "starting",
+    "observedAt": "2026-10-18",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月18日更新の掲載状況"
+  },
+  "nikko-momiji": {
+    "status": "peak",
+    "observedAt": "2026-10-18",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "山頂と麓で色づきに差がある"
+  },
+  "nikko-heike": {
+    "status": "green",
+    "observedAt": "2026-10-15",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月15日更新の掲載状況"
+  },
+  "nikko-kirifuri-falls": {
+    "status": "green",
+    "observedAt": "2026-10-15",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "10月15日更新の掲載状況"
+  },
+  "nikko-temples": {
+    "status": "green",
+    "observedAt": "2026-09-13",
+    "kind": "official",
+    "sourceName": "日光市観光協会",
+    "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
+    "note": "9月13日更新。古い観測につき参考程度"
+  },
+  "nasu": {
+    "status": "peak",
+    "observedAt": "2026-10-17",
+    "kind": "third_party",
+    "sourceName": "ウォーカープラス",
+    "sourceUrl": "https://koyo.walkerplus.com/detail/ar0309e394015/",
+    "note": "茶臼岳周辺。標高により状況が異なる"
+  },
+  "fukuroda": {
+    "status": "green",
+    "observedAt": "2026-10-17",
+    "kind": "third_party",
+    "sourceName": "ウォーカープラス",
+    "sourceUrl": "https://koyo.walkerplus.com/detail/ar0308e13083/data.html",
+    "note": ""
+  },
+  "akagi": {
+    "status": "starting",
+    "observedAt": "2026-10-13",
+    "kind": "third_party",
+    "sourceName": "ウェザーニュース",
+    "sourceUrl": "https://www.weathernews.jp/koyo/spot/24216/",
+    "note": "10月13日の判定。10月18日頃から見頃の予測あり"
+  }
+}
