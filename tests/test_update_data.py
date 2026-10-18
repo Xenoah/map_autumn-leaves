@@ -32,7 +32,7 @@ class DataUpdateTests(unittest.TestCase):
             status=200
             def __enter__(self): return self
             def __exit__(self,*args): pass
-            def read(self,n): return b'User-agent: *\\nDisallow: /private\\nAllow: /flowering'
+            def read(self,n): return b'User-agent: *\nDisallow: /private\nAllow: /flowering'
         with patch('update_data.urllib.request.urlopen',return_value=FakeResponse()):
             self.assertTrue(permitted('https://example.com/flowering'))
             self.assertFalse(permitted('https://example.com/private'))
