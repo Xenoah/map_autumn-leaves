@@ -6,6 +6,18 @@ from urllib.parse import urlsplit
 ROOT=Path(__file__).resolve().parents[1]
 VALID={'full','peak','starting','green','past','unknown'}
 
+class FrontendMobileTests(unittest.TestCase):
+    def test_mobile_camera_and_search_controls(self):
+        script=(ROOT/'assets/app.js').read_text('utf-8')
+        template=(ROOT/'scripts/index.template.html').read_text('utf-8')
+        styles=(ROOT/'assets/app.css').read_text('utf-8')
+        self.assertIn("spot.camera?'📹'",script)
+        self.assertIn("if(spot.camera)cameraOpen(spot)",script)
+        self.assertIn('id="mobile-search"',template)
+        self.assertIn('id="mobile-cameras"',template)
+        self.assertIn('min-height:44px',styles)
+        self.assertIn("state.spotsLoadedAt",script)
+
 class SpotsIntegrity(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

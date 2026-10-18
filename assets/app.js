@@ -28,7 +28,7 @@
   ].map(([region,prefectures])=>({region,prefectures:prefectures.split(' ')}));
   const PREF_REGION = Object.fromEntries(REGIONS.flatMap(r=>r.prefectures.map(pref=>[pref,r.region])));
   const prefectureDisplay = p => p==='北海道'?'北海道':p==='東京'?'東京都':(p==='大阪'||p==='京都')?p+'府':p+'県';
-  const state = {spots:[],reports:{},data:null,query:'',pref:'',status:'all',cameraOnly:false,selectedId:null,map:null,layers:null,markers:new Map(),geopoint:null,lastDataFetch:null};
+  const state = {spots:[],reports:{},data:null,query:'',pref:'',status:'all',cameraOnly:false,selectedId:null,map:null,layers:null,markers:new Map(),geopoint:null,lastDataFetch:null,spotsLoadedAt:0,listLimit:120};
   let noticeTimeout=0;
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const safeURL = url => {
@@ -45,7 +45,7 @@
     return (!words || `${s.name} ${s.prefecture} ${s.description}`.toLocaleLowerCase('ja').includes(words)) &&
       (!state.pref || (state.pref.startsWith('region:') ? PREF_REGION[s.prefecture]===state.pref.slice(7) : state.pref===s.prefecture)) &&
       (!state.cameraOnly || !!s.camera) &&
-      (state.status==='all'||state.status===status);
+      (state.status==='all'||(state.status==='best'?['full','peak'].includes(status):state.status===status));
   });}
   function createSelectOptions(){
     const available=new Set(state.spots.map(s=>s.prefecture));
@@ -61,22 +61,40 @@
       }).join('');
     $('prefecture').value=previous;
   }
-  function renderFilters(){const labels=[['all','すべて'],['full','最盛期'],['peak','見頃'],['starting','色づき始め'],['green','青葉'],['past','終盤'],['unknown','未確認']];
+  function renderFilters(){const labels=[['all','すべて'],['best','見頃まとめ'],['full','最盛期'],['peak','見頃'],['starting','色づき始め'],['green','青葉'],['past','終盤'],['unknown','未確認']];
     $('status-filters').innerHTML=labels.map(([key,label])=>{
-      const n=key==='all'?state.spots.length:state.spots.filter(s=>currentReport(s).status===key).length;
-      const color=key==='all'?'#b6c4b5':STATUS[key].color;
+      const n=key==='all'?state.spots.length:state.spots.filter(s=>key==='best'?['full','peak'].includes(currentReport(s).status):currentReport(s).status===key).length;
+      const color=key==='all'?'#b6c4b5':key==='best'?'#dc6e50':STATUS[key].color;
       return `<button type="button" class="status-chip ${state.status===key?'active':''}" data-status="${key}" aria-pressed="${state.status===key?'true':'false'}" style="--c:${color}"><span class="dot"></span>${label}<small>${n}</small></button>`;
     }).join('');
   }
   function cameraOpen(spot){if(!spot?.camera)return;const url=safeURL(spot.camera.url);if(url==='#')return;window.open(url,'_blank','noopener,noreferrer,width=1100,height=750');}
+  function syncMobileControls(count=visibleSpots().length){
+    const input=$('mobile-search');
+    if(input && document.activeElement!==input && input.value!==state.query)input.value=state.query;
+    const peaks=$('mobile-peaks');
+    const cameras=$('mobile-cameras');
+    if(peaks){peaks.classList.toggle('active',state.status==='best');peaks.setAttribute('aria-pressed',String(state.status==='best'));}
+    if(cameras){cameras.classList.toggle('active',state.cameraOnly);cameras.setAttribute('aria-pressed',String(state.cameraOnly));}
+    const results=$('mobile-results-count');
+    if(results)results.textContent=count+'件';
+    const toggle=$('mobile-list-toggle');
+    if(toggle)$('mobile-list-text').textContent=$('sidebar').classList.contains('open')?'一覧を閉じる':`スポット一覧  ${count}件`;
+  }
+  function applySearchFilters({resetLimit=true}={}){
+    if(resetLimit)state.listLimit=120;
+    renderFilters();renderList();renderMap();
+  }
   function renderList(){const visible=visibleSpots();$('results-count').textContent=`${visible.length} / ${state.spots.length} 地点`;
-    $('results-list').innerHTML=visible.length?visible.map(s=>{
+    const listed=visible.slice(0,state.listLimit);
+    $('results-list').innerHTML=visible.length?listed.map(s=>{
       const r=currentReport(s),meta=STATUS[r.status];
       return `<button class="place-row ${state.selectedId===s.id?'active':''}" type="button" data-id="${safe(s.id)}" style="--c:${meta.color}">
-        <span class="place-icon">${STATUS_EMOJI[r.status]}</span>
+        <span class="place-icon">${s.camera?'📹':STATUS_EMOJI[r.status]}</span>
         <span class="place-info"><span class="place-name">${safe(s.name)}</span><span class="place-meta">${safe(s.prefecture)} ${s.elevation?`<span class="bullet">●</span> ${s.elevation}m`:''} ${s.camera?'<span class="place-cam" title="ライブカメラあり">📹</span>':''}</span></span>
         <span class="place-status"><i></i>${meta.text}</span><span class="place-arrow">›</span></button>`;
-    }).join(''):'<div class="empty-results">条件に合うスポットがないみたい。<br>フィルターを解除して探し直してみて。</div>';
+    }).join('')+(visible.length>listed.length?`<button type="button" class="results-more" id="results-more">さらに表示（残り ${visible.length-listed.length} 件）</button>`:''):'<div class="empty-results">条件に合うスポットがないみたい。<br>フィルターを解除して探し直してみて。</div>';
+    syncMobileControls(visible.length);
   }
   function updateStats(){let peak=0;for(const s of state.spots){if(['full','peak'].includes(currentReport(s).status))peak++}
     $('peak-count').textContent=peak;$('camera-count').textContent=state.spots.filter(s=>!!s.camera).length;
@@ -87,33 +105,28 @@
   }
   function pinIcon(spot,status){
     const meta=STATUS[status] || STATUS.unknown;
-    const emoji=STATUS_EMOJI[status] || STATUS_EMOJI.unknown;
-    const camera=spot.camera ? `<button class="marker-cam" data-camera="${safe(spot.id)}" type="button" aria-label="${safe(spot.name)}のライブカメラを別タブで開く" title="ライブカメラを別タブで開く">📹</button>` : '';
+    const emoji=spot.camera?'📹':(STATUS_EMOJI[status] || STATUS_EMOJI.unknown);
+    const camera=spot.camera ? '<span class="camera-pin-dot" aria-hidden="true"></span>' : '';
     return L.divIcon({
-      className:`leaflet-div-icon marker-${status} ${state.selectedId===spot.id?'marker-selected':''}`,
+      className:`leaflet-div-icon marker-${status} ${spot.camera?'marker-camera':''} ${state.selectedId===spot.id?'marker-selected':''}`,
       html:`<div class="leaf-pin" style="--c:${meta.color}"><span class="marker-core"><span class="marker-emoji" aria-hidden="true">${emoji}</span></span>${camera}</div>`,
       iconSize:[44,44],iconAnchor:[22,22]
     });
   }
   function addSpotMarker(spot){
     const status=currentReport(spot).status;
-    const marker=L.marker([spot.lat,spot.lon],{icon:pinIcon(spot,status),riseOnHover:true,title:`${spot.name}：${STATUS[status].text}`});
-    marker.on('click',()=>selectSpot(spot.id));
-    marker.on('add',()=>{
-      const btn=marker.getElement()?.querySelector('.marker-cam');
-      if(btn){
-        L.DomEvent.disableClickPropagation(btn);
-        L.DomEvent.disableScrollPropagation(btn);
-        btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();cameraOpen(spot)});
-      }
-    });
+    const title=`${spot.name}：${STATUS[status].text}${spot.camera?'（📹タップでカメラを開く）':''}`;
+    const marker=L.marker([spot.lat,spot.lon],{icon:pinIcon(spot,status),riseOnHover:true,title,alt:title});
+    marker.on('click',()=>{if(spot.camera)cameraOpen(spot);else selectSpot(spot.id);});
     state.layers.addLayer(marker);
     state.markers.set(spot.id,marker);
   }
   function renderMap(){
     if(!state.map)return;
     state.layers.clearLayers();state.markers.clear();
-    const visible=visibleSpots(),zoom=state.map.getZoom();
+    // Only render the visible viewport. At high zoom this prevents thousands of hidden DOM markers.
+    const view=state.map.getBounds().pad(.32);
+    const visible=visibleSpots().filter(s=>view.contains([s.lat,s.lon])),zoom=state.map.getZoom();
     if(zoom>=8 || visible.length<13){visible.forEach(addSpotMarker);return;}
     // Native lightweight clusters avoid a third-party plugin and keep nationwide spots readable.
     const cell=zoom<=4?5:zoom===5?2.4:zoom===6?1.2:0.6;
@@ -165,15 +178,16 @@
   function detailHTML(spot){const {status,report,stale,age}=currentReport(spot),meta=STATUS[status];const camera=!!spot.camera;
     const googleMaps='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(`${spot.lat},${spot.lon}`);
     const submit='https://github.com/'+REPO+'/issues/new?template=koyo-report.yml&title='+encodeURIComponent(`[紅葉レポート] ${spot.name}`);
-    const source=report?.sourceUrl && safeURL(report.sourceUrl)!=='#' ? `<a href="${safeURL(report.sourceUrl)}" target="_blank" rel="noopener noreferrer">情報源 ↗</a>`:'<span>情報源なし</span>';
+    const sourceUrl=report?.sourceUrl || spot.sourceUrl;
+    const source=sourceUrl && safeURL(sourceUrl)!=='#' ? `<a href="${safeURL(sourceUrl)}" target="_blank" rel="noopener noreferrer">${report?'紅葉観測の情報源':'地点の出典'} ↗</a>`:'<span>情報源なし</span>';
     const dateInfo=report?`最終報告：${fmtDate(report.observedAt)} (${age}日前)${stale?'　※更新期限超過':''}`:'現時点で確認済みの色づき報告がありません';
-    const sourceType=report?.kind==='official'?'公式観測':report?.kind==='community'?'現地レポート':report?.kind==='third_party'?'公開情報':'情報待ち';
+    const sourceType=report?.kind==='official'?'公式観測':report?.kind==='community'?'現地レポート':report?.kind==='third_party'?'公開情報':spot.candidate?'紅葉観賞候補':'情報待ち';
     return `<div class="detail-accent" style="--c:${meta.color}"></div><div class="detail-inner"><div class="detail-head"><span class="detail-kicker">${safe(spot.prefecture).toUpperCase()} / AUTUMN GUIDE</span><button id="detail-close" class="detail-close" type="button" aria-label="詳細を閉じる">×</button></div>
       <h3 class="detail-name">${safe(spot.name)}</h3><div class="detail-tags"><span class="detail-tag main" style="--c:${meta.color}"><i></i>${meta.text}</span><span class="detail-tag">${sourceType}</span>${camera?`<span class="detail-tag">📹 ${spot.camera.mode==='directory'?'配信元のカメラ案内':'ライブカメラあり'}</span>`:''}</div>
       <p class="detail-date ${stale?'detail-stale':''}">${dateInfo}</p><p class="detail-description">${safe(spot.description)}<br>例年の目安：${safe(spot.typicalSeason)}</p>
       <div class="detail-weather"><span id="weather-content" class="weather-loading">現地の天気を取得中...</span></div>
       <div class="detail-actions ${camera?'has-camera':''}">${camera?`<button type="button" class="detail-btn cam" id="detail-camera">📹 ${spot.camera.mode==='directory'?'カメラ案内を開く':'ライブカメラを見る'} ↗</button>`:''}<a class="detail-btn" target="_blank" rel="noopener noreferrer" href="${safeURL(googleMaps)}">⌖ 地図で開く ↗</a><a class="detail-btn secondary" target="_blank" rel="noopener noreferrer" href="${safeURL(submit)}">✎ 状況を報告 ↗</a></div>
-      <div class="detail-extra"><span>${safe(report?.sourceName||'未確認')} ${stale?' / 古い報告':''}</span>${source}</div>
+      <div class="detail-extra"><span>${safe(report?.sourceName||spot.sourceName||'未確認')} ${stale?' / 古い報告':''}</span>${source}</div>
       <div class="detail-spot-id"><span>スポットID</span><code>${safe(spot.id)}</code><button id="copy-spot-id" type="button" title="スポットIDをコピー">コピー</button></div></div>`;
   }
   function updatePinSelection(){state.markers.forEach((marker,id)=>{marker.getElement()?.classList.toggle('marker-selected',id===state.selectedId);});}
@@ -181,7 +195,7 @@
   function selectSpot(id){const spot=state.spots.find(s=>s.id===id);if(!spot)return;state.selectedId=id;
     $('detail').innerHTML=detailHTML(spot);$('detail').hidden=false;bindDetailActions(spot);
     if(state.map){state.map.flyTo([spot.lat,spot.lon],Math.max(10,state.map.getZoom()),{duration:.55});updatePinSelection();}
-    $('sidebar').classList.remove('open');$('mobile-list-toggle').setAttribute('aria-expanded','false');$('mobile-list-text').textContent='一覧を表示';renderList();loadWeather(spot);
+    $('sidebar').classList.remove('open');$('mobile-list-toggle').setAttribute('aria-expanded','false');renderList();loadWeather(spot);
   }
   function closeDetail(){state.selectedId=null;$('detail').hidden=true;$('detail').innerHTML='';renderList();if(state.map)updatePinSelection();}
   function render(){renderFilters();renderList();updateStats();renderMap();if(state.selectedId){const s=state.spots.find(s=>s.id===state.selectedId);if(s){$('detail').innerHTML=detailHTML(s);bindDetailActions(s);loadWeather(s);}}}
@@ -190,7 +204,7 @@
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',updateWhenIdle:true,keepBuffer:1,detectRetina:false,crossOrigin:true}).addTo(state.map);
       state.map.attributionControl.setPrefix('');state.layers=L.layerGroup().addTo(state.map);$('map-fallback').remove();renderMap();
       L.control.zoom({position:'bottomright'}).addTo(state.map);
-      state.map.on('zoomend',renderMap);
+      state.map.on('moveend',renderMap);
       const bounds=L.latLngBounds(state.spots.map(s=>[s.lat,s.lon]));
       if(bounds.isValid())state.map.fitBounds(bounds,{padding:[36,36],maxZoom:5,animate:false});
     }catch(e){console.warn('Map init failed',e);state.map=null;}
@@ -199,29 +213,45 @@
     const start=Date.now();$('refresh').classList.add('spin');
     try{
       if(location.protocol==='file:'){if(!silent)notify('ローカル表示です。公開後は自動でデータを更新します');return;}
-      const suffix='?v='+Date.now();
-      const [a,b]=await Promise.all([fetch('data/spots.json'+suffix,{cache:'no-store'}),fetch('data/live.json'+suffix,{cache:'no-store'})]);
-      if(!a.ok||!b.ok)throw new Error('HTTP error');
-      const [spots,data]=await Promise.all([a.json(),b.json()]);
+      // Spot catalog is large, so poll it at most hourly; observations update every five minutes.
+      const refreshCatalog=!state.spotsLoadedAt || Date.now()-state.spotsLoadedAt>60*60*1000;
+      const [catalogResponse,liveResponse]=await Promise.all([
+        refreshCatalog?fetch('data/spots.json',{cache:'no-cache'}):Promise.resolve(null),
+        fetch('data/live.json',{cache:'no-store'})
+      ]);
+      if((catalogResponse&&!catalogResponse.ok)||!liveResponse.ok)throw new Error('HTTP error');
+      const [spots,data]=await Promise.all([
+        catalogResponse?catalogResponse.json():Promise.resolve(state.spots),
+        liveResponse.json()
+      ]);
       if(!Array.isArray(spots)||!data?.reports||typeof data.reports!=='object')throw new Error('invalid JSON');
       const old=state.data?.generatedAt;
-      state.spots=spots;state.reports=data.reports;state.data=data;state.lastDataFetch=new Date();createSelectOptions();render();
+      state.spots=spots;state.reports=data.reports;state.data=data;state.lastDataFetch=new Date();
+      if(catalogResponse)state.spotsLoadedAt=Date.now();
+      createSelectOptions();render();
       if(!silent)notify(data.generatedAt===old?'確認完了。情報は最新の取得結果です':'最新データを読み込みました');
     }catch(e){if(!silent)notify('最新データを取得できません。手元の情報を表示しています');console.warn('Could not update data',e)}
     finally{setTimeout(()=>$('refresh').classList.remove('spin'),Math.max(250,550-(Date.now()-start)))}
   }
   function wireControls(){
-    $('search').addEventListener('input',e=>{state.query=e.target.value;renderFilters();renderList();renderMap()});
-    $('prefecture').addEventListener('change',e=>{state.pref=e.target.value;renderList();renderMap()});
-    $('camera-only').addEventListener('change',e=>{state.cameraOnly=e.target.checked;renderList();renderMap()});
-    $('status-filters').addEventListener('click',e=>{const button=e.target.closest('button[data-status]');if(!button)return;state.status=button.dataset.status;renderFilters();renderList();renderMap()});
-    $('clear-filters').addEventListener('click',()=>{state.status='all';state.query='';state.pref='';state.cameraOnly=false;$('search').value='';$('prefecture').value='';$('camera-only').checked=false;render()});
-    $('results-list').addEventListener('click',e=>{const button=e.target.closest('button[data-id]');if(button)selectSpot(button.dataset.id)});
+    $('search').addEventListener('input',e=>{state.query=e.target.value;const mobile=$('mobile-search');if(mobile)mobile.value=state.query;applySearchFilters()});
+    $('mobile-search')?.addEventListener('input',e=>{state.query=e.target.value;$('search').value=state.query;applySearchFilters()});
+    $('mobile-peaks')?.addEventListener('click',()=>{state.status=state.status==='best'?'all':'best';applySearchFilters()});
+    $('mobile-cameras')?.addEventListener('click',()=>{state.cameraOnly=!state.cameraOnly;$('camera-only').checked=state.cameraOnly;applySearchFilters()});
+    $('prefecture').addEventListener('change',e=>{state.pref=e.target.value;applySearchFilters()});
+    $('camera-only').addEventListener('change',e=>{state.cameraOnly=e.target.checked;applySearchFilters()});
+    $('status-filters').addEventListener('click',e=>{const button=e.target.closest('button[data-status]');if(!button)return;state.status=button.dataset.status;applySearchFilters()});
+    $('clear-filters').addEventListener('click',()=>{state.status='all';state.query='';state.pref='';state.cameraOnly=false;$('search').value='';$('mobile-search').value='';$('prefecture').value='';$('camera-only').checked=false;state.listLimit=120;render()});
+    $('results-list').addEventListener('click',e=>{
+      const more=e.target.closest('#results-more');
+      if(more){state.listLimit+=120;renderList();return;}
+      const button=e.target.closest('button[data-id]');if(button)selectSpot(button.dataset.id);
+    });
     $('refresh').addEventListener('click',()=>loadLive());
     $('fit').addEventListener('click',()=>{if(!state.map)return;const p=visibleSpots();if(p.length)state.map.fitBounds(L.latLngBounds(p.map(s=>[s.lat,s.lon])),{padding:[45,45],maxZoom:11})});
     $('locate').addEventListener('click',()=>{if(!navigator.geolocation){notify('位置情報に対応していません');return}navigator.geolocation.getCurrentPosition(p=>{state.map?.flyTo([p.coords.latitude,p.coords.longitude],10);notify('現在地の周辺を表示しています')},()=>notify('位置情報の利用が許可されていません'),{timeout:9000,enableHighAccuracy:false})});
-    $('mobile-list-toggle').addEventListener('click',()=>{const el=$('sidebar'),open=el.classList.toggle('open');$('mobile-list-toggle').setAttribute('aria-expanded',String(open));$('mobile-list-text').textContent=open?'一覧を閉じる':'一覧を表示'});
-    document.addEventListener('keydown',e=>{if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)){e.preventDefault();$('search').focus();}if(e.key==='Escape'){closeDetail();$('sidebar').classList.remove('open')}});
+    $('mobile-list-toggle').addEventListener('click',()=>{const el=$('sidebar'),open=el.classList.toggle('open');$('mobile-list-toggle').setAttribute('aria-expanded',String(open));syncMobileControls();if(open)$('search').focus({preventScroll:true});});
+    document.addEventListener('keydown',e=>{if(e.key==='/' && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)){e.preventDefault();(window.matchMedia('(max-width:820px)').matches?$('mobile-search'):$('search')).focus();}if(e.key==='Escape'){closeDetail();$('sidebar').classList.remove('open');$('mobile-list-toggle').setAttribute('aria-expanded','false');syncMobileControls();}});
   }
   function main(){let bootstrap={spots:[],live:{reports:{},generatedAt:null}};
     try{bootstrap=JSON.parse($('bootstrap-data').textContent);}catch(e){console.warn('Missing offline data',e)}

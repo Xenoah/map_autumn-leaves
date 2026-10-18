@@ -43,7 +43,7 @@
             <div><div class="date-title" id="today-label">2026.10.18 SUN</div><div class="date-caption" id="sync-caption">データを準備しています…</div></div>
           </div>
           <section class="search-section">
-            <div class="section-row"><h2>スポットを探す</h2><span id="total-count" class="subtle-count">157 LOCATIONS</span></div>
+            <div class="section-row"><h2>スポットを探す</h2><span id="total-count" class="subtle-count">全国のスポット</span></div>
             <label class="search-box"><span class="search-icon" aria-hidden="true">⌕</span><input type="search" id="search" placeholder="場所・県名で検索" autocomplete="off" aria-label="紅葉スポット検索"><kbd>/</kbd></label>
             <div class="filter-controls">
               <label class="select-wrap"><span class="select-icon">⌖</span><select id="prefecture" aria-label="地域を選択"><option value="">すべての地域</option></select><span class="select-arrow">⌄</span></label>
@@ -64,6 +64,14 @@
       <section class="map-shell" aria-label="紅葉状況を示す地図">
         <div id="map" aria-label="全国の紅葉スポット地図" role="application"><div class="map-fallback" id="map-fallback"><span class="fallback-emoji">🍁</span><span>マップを読み込んでいます</span><small>地図表示にはインターネット接続が必要です</small></div></div>
         <div class="map-tint"></div>
+        <div class="mobile-search-tools" aria-label="地図検索とクイックフィルター">
+          <label class="mobile-search-field"><span aria-hidden="true">⌕</span><input id="mobile-search" type="search" placeholder="地名・都道府県・名所を検索" autocomplete="off" aria-label="全国の紅葉スポットを検索"></label>
+          <div class="mobile-search-actions">
+            <button id="mobile-peaks" type="button" aria-pressed="false">🍁 見頃だけ</button>
+            <button id="mobile-cameras" type="button" aria-pressed="false">📹 カメラ</button>
+            <span id="mobile-results-count" aria-live="polite">0件</span>
+          </div>
+        </div>
         <div class="map-top-overlay">
           <span class="map-kicker">AUTUMN FOLIAGE TRACKER <span class="map-kicker-rule"></span> <span id="map-kicker-year">2026</span></span>
           <div class="headline-stats">
@@ -76,9 +84,9 @@
           <div class="legend-heading">FOLIAGE STATUS</div>
           <div><i class="legend-dot full"></i> 最盛期 <i class="legend-dot peak"></i> 見頃 <i class="legend-dot starting"></i> 色づき始め</div>
           <div><i class="legend-dot green"></i> 青葉 <i class="legend-dot past"></i> 終盤 <i class="legend-dot unknown"></i> 未確認</div>
-          <small>📹 カメラ付きスポットは別タブで視聴</small>
+          <small>📹 丸いカメラピンをタップすると配信元を別タブで開きます</small>
         </div>
-        <button type="button" class="mobile-list-toggle" id="mobile-list-toggle" aria-controls="sidebar" aria-expanded="false"><span id="mobile-list-text">一覧を表示</span> <span aria-hidden="true">☷</span></button>
+        <button type="button" class="mobile-list-toggle" id="mobile-list-toggle" aria-controls="sidebar" aria-expanded="false"><span id="mobile-list-text">スポット一覧</span> <span aria-hidden="true">☷</span></button>
         <div class="map-controls"><button id="locate" title="現在地を表示" aria-label="現在地を表示">⌖</button><button id="fit" title="すべての地点を表示" aria-label="地図の範囲をリセット">⤢</button></div>
         <div id="detail" class="detail-card" hidden></div>
         <div class="map-credit">WEATHER: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">OPEN-METEO</a> · MAP DATA © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OPENSTREETMAP</a> CONTRIBUTORS</div>
