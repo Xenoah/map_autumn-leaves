@@ -49,13 +49,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/update_data.py
-      - name: Refresh offline fallback inside HTML
+      - name: Build compact index, prefecture details and HTML
         run: python scripts/build_embedded.py
+      - name: Test generated static assets
+        run: python -m unittest discover -s tests -v
       - name: Commit data snapshots without blocking deployment
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/live.json data/spots.json data/catalog-import.done index.html
+          git add data/live.json data/spots.json data/spots-lite.json data/prefectures data/catalog-import.done index.html
           if ! git diff --cached --quiet; then
             git commit -m "data: refresh observed foliage snapshots"
             for attempt in 1 2 3; do
@@ -101,7 +103,8 @@ jobs:
           mkdir -p dist/assets dist/data
           cp index.html .nojekyll dist/
           cp assets/* dist/assets/
-          cp data/spots.json data/live.json dist/data/
+          cp data/spots-lite.json data/live.json dist/data/
+          cp -r data/prefectures dist/data/
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload site

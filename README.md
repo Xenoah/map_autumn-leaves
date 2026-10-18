@@ -21,7 +21,7 @@
 - 🔗 元情報の発表日と出典を明記。**観測から10日以上経過した情報を自動で「未確認」にする**
 - ✏️ GitHub Issue Forms を使った現地レポート（スポットIDを詳細画面からコピー可能）。**運営者が `verified` ラベルを付けたもののみ表示**
 - 📱 **スマホ優先UI**。地図上に検索・見頃・カメラのクイック操作、片手で開ける大きな一覧シート、44px級タップ領域。一覧は120件ずつ追加表示し、地図マーカーは表示範囲内だけ描画。
-- ⚡ 地点カタログは1時間に一度、紅葉情報だけ5分ごとに確認。HTMLへの初期埋め込みは元の厳選157地点のみに限定し、全国1,083地点は公開JSONから読み込む。通信不能時も厳選地点の一覧は表示可能。
+- ⚡ 初期HTMLは優先58地点までのバックアップのみ。全国1,083地点は軽量な座標索引から表示し、地点詳細は選んだ都道府県だけを取得。観測情報は5分ごと、索引は1時間ごとに確認。
 - 🧭 [追加地点の出典・ライセンス](data/ATTRIBUTION.md)：地名・座標の加工データにCC BY-SA/CC0の条件が適用され、プログラムはMITのまま。
 
 ### 地図上のドットの見方
@@ -124,11 +124,14 @@ git push origin main
 |---|---|
 | `index.html` | 公開用HTML。初期データの埋め込みも含む |
 | `assets/app.css`, `assets/app.js` | UIと地図の動作 |
-| `data/spots.json` | スポットの名称・座標・カメラURL・観賞候補の出典 |
+| `data/spots.json` | 編集元の全地点データ（Pagesにそのまま配信しない） |
+| `data/spots-lite.json` | ブラウザに最初に送る圧縮項目の地点索引（全1,083件） |
+| `data/prefectures/*.json` | 詳細表示時だけ読む都道府県別JSON（全47ファイル） |
 | `data/catalog-import.done`, `data/ATTRIBUTION.md` | 追加地点の出典・初回取込履歴・ライセンス |
 | `data/seed-observations.json` | 初期の色づき観測値と出典 |
 | `data/live.json` | GitHub Actionsが生成する公開用の更新データ |
 | `scripts/import_spots.py` | 公開座標データから紅葉観賞候補を一度だけ追加（初回のみ） |
+| `scripts/build_embedded.py` | 軽量索引・都道府県別詳細データ・縮小HTMLを生成 |
 | `scripts/update_data.py` | 公式情報・承認済みレポートの収集・マージ |
 | `scripts/build_embedded.py` | オフライン表示用の初期値をHTMLに反映 |
 | `.github/workflows/publish.yml` | 定期更新とPages公開 |
