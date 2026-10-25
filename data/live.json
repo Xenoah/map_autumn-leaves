@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T23:18:05Z",
+  "generatedAt": "2026-10-25T04:46:37Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -8,7 +8,7 @@
   "reports": {
     "nikko-ryuzu": {
       "status": "full",
-      "observedAt": "2026-10-21",
+      "observedAt": "2026-10-25",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -16,7 +16,7 @@
     },
     "nikko-yutaki": {
       "status": "full",
-      "observedAt": "2026-10-20",
+      "observedAt": "2026-10-25",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -24,7 +24,7 @@
     },
     "nikko-senjogahara": {
       "status": "full",
-      "observedAt": "2026-10-21",
+      "observedAt": "2026-10-25",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -32,15 +32,15 @@
     },
     "nikko-odashiro": {
       "status": "full",
-      "observedAt": "2026-10-21",
+      "observedAt": "2026-10-25",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-chuzenji": {
-      "status": "peak",
-      "observedAt": "2026-10-22",
+      "status": "full",
+      "observedAt": "2026-10-25",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -56,7 +56,7 @@
     },
     "nikko-kirifuri": {
       "status": "full",
-      "observedAt": "2026-10-19",
+      "observedAt": "2026-10-25",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -72,7 +72,7 @@
     },
     "nikko-momiji": {
       "status": "full",
-      "observedAt": "2026-10-22",
+      "observedAt": "2026-10-25",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
