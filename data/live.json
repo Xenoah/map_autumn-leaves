@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T22:18:27Z",
+  "generatedAt": "2026-10-28T05:47:09Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -79,8 +79,8 @@
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-heike": {
-      "status": "starting",
-      "observedAt": "2026-10-27",
+      "status": "peak",
+      "observedAt": "2026-10-28",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
