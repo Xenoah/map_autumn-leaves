@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T01:00:22Z",
+  "generatedAt": "2026-10-29T10:02:33Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -48,7 +48,7 @@
     },
     "nikko-iroha": {
       "status": "peak",
-      "observedAt": "2026-10-27",
+      "observedAt": "2026-10-29",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -80,7 +80,7 @@
     },
     "nikko-heike": {
       "status": "peak",
-      "observedAt": "2026-10-28",
+      "observedAt": "2026-10-29",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -96,7 +96,7 @@
     },
     "nikko-temples": {
       "status": "starting",
-      "observedAt": "2026-10-27",
+      "observedAt": "2026-10-29",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
