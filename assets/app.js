@@ -285,7 +285,8 @@
     }
     try{
       // Set final bounds before loading any tiles: no intermediate zoom requests.
-      state.map=L.map('map',{zoomControl:false,minZoom:3,maxZoom:17,preferCanvas:true,
+      // OSM credit is shown by .map-credit; Leaflet's own control would overlap it.
+      state.map=L.map('map',{zoomControl:false,attributionControl:false,minZoom:3,maxZoom:17,preferCanvas:true,
         zoomAnimation:false,fadeAnimation:false,markerZoomAnimation:false});
       const points=state.initialBounds||state.spots.map(s=>[s.lat,s.lon]);
       const bounds=L.latLngBounds(points);
@@ -293,7 +294,6 @@
       else state.map.setView([36.6,138.0],4);
       state.tileLayer=createMapTiles().addTo(state.map);
       updateMapQualityButton();
-      state.map.attributionControl.setPrefix('');
       state.layers=L.layerGroup().addTo(state.map);
       $('map-fallback').remove();
       L.control.zoom({position:'bottomright'}).addTo(state.map);

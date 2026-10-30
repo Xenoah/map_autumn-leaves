@@ -6,7 +6,7 @@
 
 **🌐 [KOYO LIVE｜全国紅葉マップを開く](https://xenoah.github.io/map_autumn-leaves/)**
 
-![Version](https://img.shields.io/badge/version-1.2.1-e38c58) ![GitHub Pages](https://img.shields.io/badge/deploy-GitHub_Pages-243c30)
+![Version](https://img.shields.io/badge/version-1.2.2-e38c58) ![GitHub Pages](https://img.shields.io/badge/deploy-GitHub_Pages-243c30)
 
 ## 主な機能
 
@@ -27,6 +27,12 @@
 ### 地図上のドットの見方
 
 丸いドットの**背景色が確認済みの葉色・紅葉段階**、中央の絵文字がその状態の目印です。未確認の地点は灰色の「❔」で表示し、最新の紅葉状況を推測で補いません。ズームアウト時は複数地点を1つの**丸い集合マーカー**にまとめ、外周の色で含まれる状態の割合を示し、中央の数字で地点数を表示します。ズームインすると個別の色付きドットに戻ります。
+
+## v1.2.2 地図が動かない不具合を修正
+
+- Leaflet CSS のSRIハッシュ誤りでブラウザが `leaflet.css` を遮断し、地図ペインが崩れてドラッグ・ズーム・ピン表示ができなかった問題を修正。
+- CDNのSRI値をテンプレートと生成HTMLの両方で検証する回帰テストを追加。
+- 地図右下の重複したOSMクレジットを1つに整理し、スマホ幅・中間幅でズームボタンが他の操作ボタンや凡例と重ならないよう調整。
 
 ## v1.2.1 省データ表示を標準化
 
