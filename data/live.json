@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-31T00:19:34Z",
+  "generatedAt": "2026-10-31T00:25:13Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
     "iwateTourism": "ok (8)",
-    "fukuokaTourism": "ok (2)",
-    "jmaPhenology": "unavailable (kaedeKoyo:robots, ichouKoyo:robots, kaedeRakuyo:robots, ichouRakuyo:robots)",
+    "fukuokaTourism": "ok (1)",
+    "jmaPhenology": "ok (52 stations, kaedeKoyo:ok, ichouKoyo:ok, kaedeRakuyo:ok, ichouRakuyo:ok)",
     "communityReports": "ok (0)"
   },
   "reports": {
@@ -208,14 +208,335 @@
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
       "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
-    "wiki-1c5311e2537e1b": {
-      "status": "peak",
-      "observedAt": "2026-10-28",
-      "kind": "official",
-      "sourceName": "福岡県観光連盟（クロスロードふくおか）",
-      "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
     }
+  },
+  "phenology": {
+    "year": 2026,
+    "sourceName": "気象庁 生物季節観測",
+    "sourceUrl": "https://www.data.jma.go.jp/sakura/data/index.html",
+    "note": "各気象台の標本木1本の観測日。周辺の観光地の状況を示すものではありません。",
+    "stations": [
+      {
+        "name": "旭川",
+        "lat": 43.7567,
+        "lon": 142.3717,
+        "events": {
+          "kaedeKoyo": "2026-10-29"
+        }
+      },
+      {
+        "name": "札幌",
+        "lat": 43.06,
+        "lon": 141.3283,
+        "events": {}
+      },
+      {
+        "name": "帯広",
+        "lat": 42.9217,
+        "lon": 143.2117,
+        "events": {
+          "kaedeKoyo": "2026-10-30"
+        }
+      },
+      {
+        "name": "釧路",
+        "lat": 42.985,
+        "lon": 144.3767,
+        "events": {
+          "kaedeKoyo": "2026-10-22",
+          "kaedeRakuyo": "2026-10-28"
+        }
+      },
+      {
+        "name": "室蘭",
+        "lat": 42.3117,
+        "lon": 140.975,
+        "events": {}
+      },
+      {
+        "name": "函館",
+        "lat": 41.8167,
+        "lon": 140.7533,
+        "events": {}
+      },
+      {
+        "name": "青森",
+        "lat": 40.8217,
+        "lon": 140.7683,
+        "events": {}
+      },
+      {
+        "name": "秋田",
+        "lat": 39.7167,
+        "lon": 140.0983,
+        "events": {}
+      },
+      {
+        "name": "盛岡",
+        "lat": 39.6983,
+        "lon": 141.165,
+        "events": {}
+      },
+      {
+        "name": "山形",
+        "lat": 38.255,
+        "lon": 140.345,
+        "events": {}
+      },
+      {
+        "name": "仙台",
+        "lat": 38.2617,
+        "lon": 140.8967,
+        "events": {}
+      },
+      {
+        "name": "福島",
+        "lat": 37.7583,
+        "lon": 140.47,
+        "events": {}
+      },
+      {
+        "name": "新潟",
+        "lat": 37.8933,
+        "lon": 139.0183,
+        "events": {}
+      },
+      {
+        "name": "金沢",
+        "lat": 36.5883,
+        "lon": 136.6333,
+        "events": {
+          "ichouKoyo": "2026-10-26"
+        }
+      },
+      {
+        "name": "富山",
+        "lat": 36.7083,
+        "lon": 137.2017,
+        "events": {}
+      },
+      {
+        "name": "長野",
+        "lat": 36.6617,
+        "lon": 138.1917,
+        "events": {}
+      },
+      {
+        "name": "宇都宮",
+        "lat": 36.5483,
+        "lon": 139.8683,
+        "events": {}
+      },
+      {
+        "name": "福井",
+        "lat": 36.055,
+        "lon": 136.2217,
+        "events": {}
+      },
+      {
+        "name": "前橋",
+        "lat": 36.405,
+        "lon": 139.06,
+        "events": {}
+      },
+      {
+        "name": "熊谷",
+        "lat": 36.15,
+        "lon": 139.38,
+        "events": {}
+      },
+      {
+        "name": "水戸",
+        "lat": 36.38,
+        "lon": 140.4667,
+        "events": {}
+      },
+      {
+        "name": "岐阜",
+        "lat": 35.4,
+        "lon": 136.7617,
+        "events": {}
+      },
+      {
+        "name": "名古屋",
+        "lat": 35.1667,
+        "lon": 136.965,
+        "events": {}
+      },
+      {
+        "name": "甲府",
+        "lat": 35.6667,
+        "lon": 138.5533,
+        "events": {}
+      },
+      {
+        "name": "銚子",
+        "lat": 35.7383,
+        "lon": 140.8567,
+        "events": {}
+      },
+      {
+        "name": "津",
+        "lat": 34.7333,
+        "lon": 136.5183,
+        "events": {}
+      },
+      {
+        "name": "静岡",
+        "lat": 34.975,
+        "lon": 138.4033,
+        "events": {}
+      },
+      {
+        "name": "東京",
+        "lat": 35.6917,
+        "lon": 139.75,
+        "events": {}
+      },
+      {
+        "name": "横浜",
+        "lat": 35.4383,
+        "lon": 139.6517,
+        "events": {}
+      },
+      {
+        "name": "松江",
+        "lat": 35.4567,
+        "lon": 133.065,
+        "events": {}
+      },
+      {
+        "name": "鳥取",
+        "lat": 35.4867,
+        "lon": 134.2383,
+        "events": {}
+      },
+      {
+        "name": "京都",
+        "lat": 35.0133,
+        "lon": 135.7317,
+        "events": {}
+      },
+      {
+        "name": "彦根",
+        "lat": 35.275,
+        "lon": 136.2433,
+        "events": {}
+      },
+      {
+        "name": "下関",
+        "lat": 33.9483,
+        "lon": 130.925,
+        "events": {}
+      },
+      {
+        "name": "広島",
+        "lat": 34.3983,
+        "lon": 132.4617,
+        "events": {}
+      },
+      {
+        "name": "岡山",
+        "lat": 34.685,
+        "lon": 133.925,
+        "events": {}
+      },
+      {
+        "name": "神戸",
+        "lat": 34.6967,
+        "lon": 135.2117,
+        "events": {}
+      },
+      {
+        "name": "大阪",
+        "lat": 34.6817,
+        "lon": 135.5183,
+        "events": {}
+      },
+      {
+        "name": "和歌山",
+        "lat": 34.2283,
+        "lon": 135.1633,
+        "events": {}
+      },
+      {
+        "name": "奈良",
+        "lat": 34.6733,
+        "lon": 135.8367,
+        "events": {}
+      },
+      {
+        "name": "福岡",
+        "lat": 33.5817,
+        "lon": 130.375,
+        "events": {}
+      },
+      {
+        "name": "佐賀",
+        "lat": 33.265,
+        "lon": 130.305,
+        "events": {}
+      },
+      {
+        "name": "大分",
+        "lat": 33.235,
+        "lon": 131.6183,
+        "events": {}
+      },
+      {
+        "name": "長崎",
+        "lat": 32.7333,
+        "lon": 129.8667,
+        "events": {}
+      },
+      {
+        "name": "熊本",
+        "lat": 32.8133,
+        "lon": 130.7067,
+        "events": {}
+      },
+      {
+        "name": "鹿児島",
+        "lat": 31.555,
+        "lon": 130.5467,
+        "events": {}
+      },
+      {
+        "name": "宮崎",
+        "lat": 31.9383,
+        "lon": 131.4133,
+        "events": {}
+      },
+      {
+        "name": "松山",
+        "lat": 33.8433,
+        "lon": 132.7767,
+        "events": {}
+      },
+      {
+        "name": "高松",
+        "lat": 34.3183,
+        "lon": 134.0533,
+        "events": {}
+      },
+      {
+        "name": "高知",
+        "lat": 33.5667,
+        "lon": 133.5483,
+        "events": {}
+      },
+      {
+        "name": "徳島",
+        "lat": 34.0667,
+        "lon": 134.5733,
+        "events": {}
+      },
+      {
+        "name": "名瀬",
+        "lat": 28.385,
+        "lon": 129.4933,
+        "events": {}
+      }
+    ]
   }
 }
