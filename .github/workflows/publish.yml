@@ -107,6 +107,15 @@ jobs:
           if ! gh release view v1.2.2 >/dev/null 2>&1; then
             gh release create v1.2.2 --title "KOYO LIVE v1.2.2 | Map interaction fix" --notes-file .github/release-notes-v1.2.2.md --target "$GITHUB_SHA"
           fi
+      - name: Publish v1.3.0 release
+        if: github.event_name == 'push'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view v1.3.0 >/dev/null 2>&1; then
+            gh release create v1.3.0 --title "KOYO LIVE v1.3.0 | JMA phenology and regional sources" --notes-file .github/release-notes-v1.3.0.md --target "$GITHUB_SHA"
+          fi
       - name: Prepare static site
         run: |
           mkdir -p dist/assets dist/data
