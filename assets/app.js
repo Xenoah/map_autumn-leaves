@@ -28,7 +28,7 @@
   ].map(([region,prefectures])=>({region,prefectures:prefectures.split(' ')}));
   const PREF_REGION = Object.fromEntries(REGIONS.flatMap(r=>r.prefectures.map(pref=>[pref,r.region])));
   const prefectureDisplay = p => p==='北海道'?'北海道':p==='東京'?'東京都':(p==='大阪'||p==='京都')?p+'府':p+'県';
-  const state = {spots:[],reports:{},data:null,query:'',pref:'',status:'all',cameraOnly:false,selectedId:null,map:null,layers:null,markers:new Map(),geopoint:null,lastDataFetch:null,spotsLoadedAt:0,listLimit:120,initialBounds:null,tileLayer:null,lowData:true,detailCache:new Map(),prefectureLoads:new Map()};
+  const state = {spots:[],reports:{},data:null,query:'',pref:'',status:'all',cameraOnly:false,selectedId:null,map:null,layers:null,markers:new Map(),geopoint:null,lastDataFetch:null,spotsLoadedAt:0,listLimit:120,initialBounds:null,tileLayer:null,lowData:true,detailCache:new Map(),prefectureLoads:new Map(),phenology:null,showStations:true,stationLayer:null};
   let noticeTimeout=0;
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const safeURL = url => {
@@ -160,6 +160,49 @@
     state.layers.addLayer(marker);
     state.markers.set(spot.id,marker);
   }
+  // JMA phenology: dated events at each weather office's reference tree.
+  // Shown as their own square badges and never copied onto tourist spots.
+  const JMA_EVENTS=[['kaedeKoyo','かえで紅葉日'],['ichouKoyo','いちょう黄葉日'],['kaedeRakuyo','かえで落葉日'],['ichouRakuyo','いちょう落葉日']];
+  function jmaYear(){return Number(new Intl.DateTimeFormat('en',{timeZone:'Asia/Tokyo',year:'numeric'}).format(new Date()));}
+  function stationKind(events){
+    if(events.kaedeRakuyo||events.ichouRakuyo)return ['fall','落'];
+    if(events.kaedeKoyo)return ['kaede','楓'];
+    if(events.ichouKoyo)return ['ichou','銀'];
+    return ['none','気'];
+  }
+  function currentPhenology(){const p=state.phenology;return p && p.year===jmaYear() && Array.isArray(p.stations)?p:null;}
+  function stationPopup(station,p){
+    const events=station.events||{};
+    const rows=JMA_EVENTS.filter(([key])=>events[key]).map(([key,label])=>`<li><b>${safe(label)}</b> ${safe(fmtDate(events[key]))}</li>`).join('');
+    return `<div class="jma-popup"><div class="jma-popup-kicker">気象台の標本木観測</div><strong>${safe(station.name)}</strong>
+      ${rows?`<ul>${rows}</ul>`:`<p>${p.year}年の紅葉・黄葉はまだ観測されていません。</p>`}
+      <p class="jma-popup-note">${safe(p.note||'')}</p>
+      <a href="${safeURL(p.sourceUrl)}" target="_blank" rel="noopener noreferrer">出典：${safe(p.sourceName||'気象庁')} ↗</a></div>`;
+  }
+  function renderStations(){
+    if(!state.map||!state.stationLayer)return;
+    state.stationLayer.clearLayers();
+    const p=currentPhenology();
+    const button=$('jma-layer');
+    if(button){button.disabled=!p;button.setAttribute('aria-pressed',String(state.showStations&&!!p));}
+    if(!p||!state.showStations)return;
+    for(const station of p.stations){
+      if(typeof station.lat!=='number'||typeof station.lon!=='number')continue;
+      const events=station.events||{};
+      const [kind,glyph]=stationKind(events);
+      const latest=JMA_EVENTS.filter(([key])=>events[key]).map(([key,label])=>`${label} ${fmtDate(events[key])}`).pop();
+      const title=`${station.name}（気象台）：${latest||'今年は未観測'}`;
+      const icon=L.divIcon({className:`jma-icon jma-${kind}`,html:`<span class="jma-pin" aria-hidden="true">${glyph}</span>`,iconSize:[26,26],iconAnchor:[13,13]});
+      const marker=L.marker([station.lat,station.lon],{icon,title,alt:title,zIndexOffset:600,keyboard:true});
+      marker.bindTooltip(safe(title),{direction:'top',offset:[0,-12]});
+      marker.bindPopup(stationPopup(station,p),{maxWidth:260});
+      state.stationLayer.addLayer(marker);
+    }
+  }
+  function toggleStations(){
+    state.showStations=!state.showStations;renderStations();
+    notify(state.showStations?'気象台の紅葉観測を表示しました':'気象台の紅葉観測を非表示にしました');
+  }
   function renderMap(){
     if(!state.map)return;
     state.layers.clearLayers();state.markers.clear();
@@ -247,7 +290,7 @@
   }
   function closeDetail(){state.selectedId=null;$('detail').hidden=true;$('detail').innerHTML='';renderList();if(state.map)updatePinSelection();}
   function render(){
-    renderFilters();renderList();updateStats();renderMap();
+    renderFilters();renderList();updateStats();renderMap();renderStations();
     if(state.selectedId){
       const spot=state.spots.find(s=>s.id===state.selectedId);
       if(spot){renderSelectedDetail(spot);void loadSpotDetails(spot);}
@@ -294,11 +337,12 @@
       else state.map.setView([36.6,138.0],4);
       state.tileLayer=createMapTiles().addTo(state.map);
       updateMapQualityButton();
+      state.stationLayer=L.layerGroup().addTo(state.map);
       state.layers=L.layerGroup().addTo(state.map);
       $('map-fallback').remove();
       L.control.zoom({position:'bottomright'}).addTo(state.map);
       state.map.on('moveend',renderMap);
-      renderMap();
+      renderMap();renderStations();
     }catch(e){console.warn('Map init failed',e);state.map=null;}
   }
   async function loadLive({silent=false}={}){
@@ -321,7 +365,7 @@
       if(!live?.reports || typeof live.reports!=='object')throw new Error('Invalid observations');
       const spots=catalogResponse?decodeCatalog(catalog):state.spots;
       const previous=state.data?.generatedAt;
-      state.spots=spots;state.reports=live.reports;state.data=live;state.lastDataFetch=new Date();
+      state.spots=spots;state.reports=live.reports;state.data=live;state.phenology=live.phenology||null;state.lastDataFetch=new Date();
       if(catalogResponse)state.spotsLoadedAt=Date.now();
       if(catalogResponse||previous!==live.generatedAt){createSelectOptions();render();}
       if(!silent)notify(live.generatedAt===previous?'確認完了。最新の取得結果です':'最新データを読み込みました');
@@ -348,6 +392,7 @@
     });
     $('refresh').addEventListener('click',()=>loadLive());
     $('map-quality')?.addEventListener('click',toggleMapQuality);
+    $('jma-layer')?.addEventListener('click',toggleStations);
     $('fit').addEventListener('click',()=>{if(!state.map)return;const p=visibleSpots();if(p.length)state.map.fitBounds(L.latLngBounds(p.map(s=>[s.lat,s.lon])),{padding:[45,45],maxZoom:11})});
     $('locate').addEventListener('click',()=>{if(!navigator.geolocation){notify('位置情報に対応していません');return}navigator.geolocation.getCurrentPosition(p=>{state.map?.flyTo([p.coords.latitude,p.coords.longitude],10);notify('現在地の周辺を表示しています')},()=>notify('位置情報の利用が許可されていません'),{timeout:9000,enableHighAccuracy:false})});
     $('mobile-list-toggle').addEventListener('click',()=>{const el=$('sidebar'),open=el.classList.toggle('open');$('mobile-list-toggle').setAttribute('aria-expanded',String(open));syncMobileControls();if(open)$('search').focus({preventScroll:true});});
@@ -355,14 +400,14 @@
   }
   function main(){let bootstrap={spots:[],live:{reports:{},generatedAt:null}};
     try{bootstrap=JSON.parse($('bootstrap-data').textContent);}catch(e){console.warn('Missing offline data',e)}
-    state.spots=bootstrap.spots||[];state.reports=bootstrap.live?.reports||{};state.data=bootstrap.live||null;
+    state.spots=bootstrap.spots||[];state.reports=bootstrap.live?.reports||{};state.data=bootstrap.live||null;state.phenology=bootstrap.live?.phenology||null;
     state.initialBounds=bootstrap.bounds||null;
     for(const item of state.spots)state.detailCache.set(item.id,item);
     $('today-label').textContent=tokyoDate().replace(/\//g,'.').toUpperCase();const year=new Intl.DateTimeFormat('en',{timeZone:'Asia/Tokyo',year:'numeric'}).format(new Date());$('season-year').textContent=year;$('map-kicker-year').textContent=year;
     createSelectOptions();wireControls();render();initMap();
     loadLive({silent:true});setInterval(()=>loadLive({silent:true}),5*60*1000);
     // Freshness changes at midnight, even when source data is unchanged.
-    setInterval(()=>{renderFilters();renderList();updateStats();renderMap()},60*60*1000);
+    setInterval(()=>{renderFilters();renderList();updateStats();renderMap();renderStations()},60*60*1000);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',main);else main();
 })();

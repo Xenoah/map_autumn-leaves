@@ -6,7 +6,7 @@
 
 **🌐 [KOYO LIVE｜全国紅葉マップを開く](https://xenoah.github.io/map_autumn-leaves/)**
 
-![Version](https://img.shields.io/badge/version-1.2.2-e38c58) ![GitHub Pages](https://img.shields.io/badge/deploy-GitHub_Pages-243c30)
+![Version](https://img.shields.io/badge/version-1.3.0-e38c58) ![GitHub Pages](https://img.shields.io/badge/deploy-GitHub_Pages-243c30)
 
 ## 主な機能
 
@@ -27,6 +27,13 @@
 ### 地図上のドットの見方
 
 丸いドットの**背景色が確認済みの葉色・紅葉段階**、中央の絵文字がその状態の目印です。未確認の地点は灰色の「❔」で表示し、最新の紅葉状況を推測で補いません。ズームアウト時は複数地点を1つの**丸い集合マーカー**にまとめ、外周の色で含まれる状態の割合を示し、中央の数字で地点数を表示します。ズームインすると個別の色付きドットに戻ります。
+
+## v1.3.0 取得元の拡大と気象台の観測レイヤー
+
+- **気象庁 生物季節観測**（かえで紅葉日・落葉日、いちょう黄葉日・落葉日、全国約50気象台）を自動取得し、地図に四角いバッジで表示。地図右側の「気」ボタンで表示を切り替え。各気象台の**標本木1本の観測日**であり、周辺の観光スポットの色づきとしては扱いません。
+- 公式の色づき情報として **岩手県観光協会（いわての旅）** と **福岡県観光連盟（クロスロードふくおか）** を追加。各スポットの名称で対応付け、取得のたびに `robots.txt` を確認します。
+- 取得元は `scripts/update_data.py` の `OFFICIAL_SOURCES` に1件ずつ追加できる設定方式に変更。掲載日が30日より古い項目（前シーズン分）は取り込みません。
+- 利用規約でブラウザ以外の取得や転載を禁止しているサイト（tenki.jp、京都観光Navi など）は取得元にしません。そのため**全1,083地点の色づきが埋まるわけではなく**、観測がない地点は引き続き「未確認」です。
 
 ## v1.2.2 地図が動かない不具合を修正
 
@@ -87,9 +94,10 @@ git push origin main
 ## データ更新のしくみ
 
 ```text
-日光市観光協会の公開情報 ─┐
-                         ├─ Python 更新スクリプト ─→ data/live.json ─→ GitHub Pages
-承認済み GitHub Issue ───┘                              ↑
+日光市観光協会の公開情報 ───┐
+岩手県観光協会・福岡県観光連盟 ┤
+気象庁 生物季節観測（気象台） ─┼─ Python 更新スクリプト ─→ data/live.json ─→ GitHub Pages
+承認済み GitHub Issue ─────┘                              ↑
                                                     3時間ごと
 ブラウザ ───5分ごとに live.json を確認
          ├── Open-Meteo → 現地の気象情報（紅葉実測値とは別）
@@ -99,7 +107,8 @@ git push origin main
 - 自動収集は `robots.txt` を確認し、許可が確認できない場合は取得しません。
 - 初期データ `data/seed-observations.json` には、2026年10月中旬に確認した簡潔な色づき段階と出典を収録しています。**このデータは時間が経過すると未確認表示になります**。
 - 各サイトの写真・映像・本文の複製や無断埋め込みはしません。取得する場合も状態を表す記号と更新日のみに限定します。
-- 日光観光サイトのDOMや利用ポリシーが変更された場合は取得が止まります。`data/live.json` の `sources` と Actions ログを確認してください。
+- 各取得元のページ構成や利用ポリシーが変更された場合は、その取得元だけが止まります。`data/live.json` の `sources` に取得元ごとの結果（`ok (件数)`、`robots-denied-or-unavailable`、`parser-no-match` など）が残るので、Actions ログと合わせて確認してください。
+- 気象庁の観測は `live.json` の `phenology` に、気象台名・座標（アメダス地点表）・観測日だけを保存します。座標が得られない気象台は推測で配置しません。
 - 状況更新は情報提供元の公表タイミング次第。ワークフローの成功 ≠ 新しい観測があったこと、です。
 - GitHub Actionsの定期実行は遅延することがあります。
 
@@ -169,7 +178,8 @@ python -m http.server 8000
 
 - 地図タイル・地理情報: [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) / ODbL ほか
 - 現在の気象情報: [Open-Meteo](https://open-meteo.com/) / CC BY 4.0。無償APIは**非商用利用限定**。広告や収益化を行う際はAPI利用条件を再確認してください。
-- 紅葉情報の確認元: [日光市観光協会](https://www.nikko-kankou.org/flowering/autumn-leaves)、[ウェザーニュース](https://weathernews.jp/koyo/)、[ウォーカープラス](https://koyo.walkerplus.com/)。独立した情報源であり、当サイトを推奨・監修するものではありません。
+- 紅葉情報の確認元: [日光市観光協会](https://www.nikko-kankou.org/flowering/autumn-leaves)、[岩手県観光協会 いわての旅](https://iwatetabi.jp/flower/autumnleaves/)、[福岡県観光連盟 クロスロードふくおか](https://www.crossroadfukuoka.jp/feature/autumn)、[ウェザーニュース](https://weathernews.jp/koyo/)、[ウォーカープラス](https://koyo.walkerplus.com/)。独立した情報源であり、当サイトを推奨・監修するものではありません。
+- 生物季節観測・気象台の位置: 出典「[気象庁ホームページ](https://www.data.jma.go.jp/sakura/data/index.html)」（気象庁ホームページ利用規約・政府標準利用規約準拠）。観測日を加工せず表示しています。
 - カメラは配信元へのリンクに限ります。停止・移転・通信制限で表示できないことがあります。
 - 主要なカメラ提供元: [五千尺ホテル上高地](https://www.gosenjaku.co.jp/live-camera/)、[Mt.T by 星野リゾート](https://tanigawadake-joch.com/mt-t/conditions/)、[清流の宿たむら](https://www.yado-tamura.com/live)。映像の著作権・配信管理権は各提供元に帰属します。
 - 追加地点の名称・座標: [rtcode337/travel-log-data](https://github.com/rtcode337/travel-log-data/blob/main/tourist/README.md) 経由のWikipedia（CC BY-SA 4.0）およびWikidata（CC0）。詳細は [data/ATTRIBUTION.md](data/ATTRIBUTION.md)。コードはMIT Licenseですが、派生地点データは別条件です。
