@@ -319,9 +319,10 @@ def jma_phenology(previous=None,today=None):
     try: positions=amedas_positions()
     except Exception: positions={}
     stations=[]
+    unplaced=[]
     for name,record in events.items():
         point=positions.get(name) or known.get(name)
-        if not point: continue
+        if not point: unplaced.append(name);continue
         observed={k:v for k,v in record.items() if v}
         observed.update({k:v for k,v in carried.get(name,{}).items() if k in failed and v})
         stations.append({'name':name,'lat':point[0],'lon':point[1],'events':observed})
@@ -329,6 +330,7 @@ def jma_phenology(previous=None,today=None):
              'sourceUrl':JMA_BASE+'index.html',
              'note':'各気象台の標本木1本の観測日。周辺の観光地の状況を示すものではありません。',
              'stations':stations}
+    if unplaced: status.append('no-position:'+'/'.join(unplaced))
     return payload,'ok ('+str(len(stations))+' stations, '+', '.join(status)+')'
 
 def fields_from_issue(body):
