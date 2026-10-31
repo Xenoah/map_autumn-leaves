@@ -51,8 +51,12 @@ def permitted(url):
             body=response.read(100_000).decode('utf-8',errors='replace')
         rp.parse(body.splitlines())
         return rp.can_fetch(UA,url)
+    except urllib.error.HTTPError as e:
+        # RFC 9309: a missing robots.txt (404, 410 and other 4xx) places no
+        # restriction. 401/403 and 429/5xx are treated as "do not crawl".
+        return 400<=e.code<500 and e.code not in (401,403,429)
     except Exception:
-        return False  # Fail closed: no official crawl without robots permission.
+        return False  # Fail closed: timeouts and network errors mean no crawl.
 
 def extract_nikko(text, spots):
     """Parse status glyph + publication date from readable page text.
@@ -146,7 +150,8 @@ def stage_of(text):
 def spot_aliases(spot):
     """Distinctive name parts. Short pieces (<3 chars) are too ambiguous."""
     parts=re.split(r'[・･（）()\s]+',spot['name'])
-    aliases={p for p in parts if len(p)>=3}
+    # 「東公園 (福岡市)」「中津川 (岩手県)」: place qualifiers are not spot names.
+    aliases={p for p in parts if len(p)>=3 and not re.search(r'[市町村区郡県府国]$',p)}
     aliases.update(spot.get('aliases',[]))
     return sorted(aliases,key=len,reverse=True)
 

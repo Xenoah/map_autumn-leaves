@@ -35,6 +35,8 @@ class StageWordTests(unittest.TestCase):
     def test_aliases_skip_short_and_municipal_names(self):
         self.assertEqual(ud.spot_aliases(spot('a', '平泉・中尊寺', '岩手')), ['中尊寺'])
         self.assertIn('姿見の池', ud.spot_aliases(spot('b', '大雪山・旭岳（姿見の池）', '北海道')))
+        self.assertEqual(ud.spot_aliases(spot('c', '東公園 (福岡市)', '福岡')), ['東公園'])
+        self.assertEqual(ud.spot_aliases(spot('d', '中津川 (岩手県)', '岩手')), ['中津川'])
         pattern = ud.alias_pattern('八幡平')
         self.assertIsNone(pattern.search('八幡平市 松川渓谷'))
         self.assertIsNotNone(pattern.search('八幡平市 八幡平 終盤'))
@@ -90,7 +92,8 @@ class IwateTests(unittest.TestCase):
 
 
 class FukuokaTests(unittest.TestCase):
-    spots = [spot('fukuoka-akizuki', '秋月城跡', '福岡'),
+    spots = [spot('wiki-higashi', '東公園 (福岡市)', '福岡'),
+             spot('fukuoka-akizuki', '秋月城跡', '福岡'),
              spot('fukuoka-kamado', '宝満宮竈門神社', '福岡'),
              spot('fukuoka-hikosan', '英彦山', '福岡'),
              spot('wiki-ohori', '大濠公園', '福岡')]
@@ -123,6 +126,23 @@ class FukuokaTests(unittest.TestCase):
         reports, _ = ud.extract_source(text, spots, FUKUOKA, TODAY)
         self.assertEqual(reports['fukuoka-kamado']['status'], 'peak')
         self.assertNotIn('wiki-homanzan', reports)
+
+
+class RobotsStatusTests(unittest.TestCase):
+    def check(self, code):
+        import urllib.error
+        error = urllib.error.HTTPError('https://example.com/robots.txt', code, 'x', {}, None)
+        with patch('update_data.urllib.request.urlopen', side_effect=error):
+            return ud.permitted('https://example.com/data/page.html')
+
+    def test_missing_robots_txt_allows_crawl(self):
+        self.assertTrue(self.check(404))
+        self.assertTrue(self.check(410))
+
+    def test_forbidden_or_server_error_denies_crawl(self):
+        for code in (401, 403, 429, 500, 503):
+            with self.subTest(code=code):
+                self.assertFalse(self.check(code))
 
 
 class RegionalFetchTests(unittest.TestCase):
