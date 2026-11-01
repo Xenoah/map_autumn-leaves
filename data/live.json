@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-01T00:09:43Z",
+  "generatedAt": "2026-11-01T06:12:57Z",
   "schemaVersion": 1,
   "sources": {
-    "nikkoOfficial": "ok (12)",
-    "iwateTourism": "ok (8)",
+    "nikkoOfficial": "robots-denied-or-unavailable",
+    "iwateTourism": "robots-denied-or-unavailable",
     "fukuokaTourism": "ok (1)",
     "jmaPhenology": "ok (52 stations, kaedeKoyo:ok, ichouKoyo:ok, kaedeRakuyo:ok, ichouRakuyo:ok)",
     "communityReports": "ok (0)"
@@ -11,99 +11,99 @@
   "reports": {
     "nikko-ryuzu": {
       "status": "full",
-      "observedAt": "2026-10-26",
+      "observedAt": "2026-10-17",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月17日現在の掲載状況"
     },
     "nikko-yutaki": {
       "status": "full",
-      "observedAt": "2026-10-26",
+      "observedAt": "2026-10-17",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月17日現在の掲載状況"
     },
     "nikko-senjogahara": {
       "status": "full",
-      "observedAt": "2026-10-26",
+      "observedAt": "2026-10-17",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月17日現在の掲載状況"
     },
     "nikko-odashiro": {
-      "status": "past",
-      "observedAt": "2026-10-27",
+      "status": "full",
+      "observedAt": "2026-10-17",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月17日現在の掲載状況"
     },
     "nikko-chuzenji": {
-      "status": "full",
-      "observedAt": "2026-10-26",
+      "status": "peak",
+      "observedAt": "2026-10-17",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月17日現在の掲載状況"
     },
     "nikko-iroha": {
-      "status": "peak",
-      "observedAt": "2026-10-29",
+      "status": "starting",
+      "observedAt": "2026-10-17",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月17日現在の掲載状況"
     },
     "nikko-kirifuri": {
-      "status": "past",
-      "observedAt": "2026-10-27",
+      "status": "full",
+      "observedAt": "2026-10-17",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月17日現在の掲載状況"
     },
     "nikko-ryuokyo": {
       "status": "starting",
-      "observedAt": "2026-10-29",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月18日更新の掲載状況"
     },
     "nikko-momiji": {
-      "status": "full",
-      "observedAt": "2026-10-29",
+      "status": "peak",
+      "observedAt": "2026-10-18",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "山頂と麓で色づきに差がある"
     },
     "nikko-heike": {
-      "status": "peak",
-      "observedAt": "2026-10-29",
+      "status": "green",
+      "observedAt": "2026-10-15",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月15日更新の掲載状況"
     },
     "nikko-kirifuri-falls": {
-      "status": "full",
-      "observedAt": "2026-10-26",
+      "status": "green",
+      "observedAt": "2026-10-15",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "10月15日更新の掲載状況"
     },
     "nikko-temples": {
-      "status": "starting",
-      "observedAt": "2026-10-29",
+      "status": "green",
+      "observedAt": "2026-09-13",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
-      "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
+      "note": "9月13日更新。古い観測につき参考程度"
     },
     "nasu": {
       "status": "peak",
@@ -136,70 +136,6 @@
       "sourceName": "立山黒部アルペンルート",
       "sourceUrl": "https://www.alpen-route.com/autumn-leaves/",
       "note": "10月16日の公式色づき一覧で室堂平は「落葉」。高山は積雪に注意。"
-    },
-    "iwate-hachimantai": {
-      "status": "past",
-      "observedAt": "2026-10-29",
-      "kind": "official",
-      "sourceName": "岩手県観光協会（いわての旅）",
-      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
-    "iwate-chusonji": {
-      "status": "starting",
-      "observedAt": "2026-10-29",
-      "kind": "official",
-      "sourceName": "岩手県観光協会（いわての旅）",
-      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
-    "iwate-genbikei": {
-      "status": "starting",
-      "observedAt": "2026-10-29",
-      "kind": "official",
-      "sourceName": "岩手県観光協会（いわての旅）",
-      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
-    "wiki-28af1128788ace": {
-      "status": "green",
-      "observedAt": "2026-10-29",
-      "kind": "official",
-      "sourceName": "岩手県観光協会（いわての旅）",
-      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
-    "wiki-8eb1da7eaa7ce7": {
-      "status": "past",
-      "observedAt": "2026-10-29",
-      "kind": "official",
-      "sourceName": "岩手県観光協会（いわての旅）",
-      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
-    "wiki-51746474510660": {
-      "status": "starting",
-      "observedAt": "2026-10-29",
-      "kind": "official",
-      "sourceName": "岩手県観光協会（いわての旅）",
-      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
-    "wiki-7b2f105f7d230f": {
-      "status": "starting",
-      "observedAt": "2026-10-29",
-      "kind": "official",
-      "sourceName": "岩手県観光協会（いわての旅）",
-      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
-    "wiki-7d8d8d3b2d7367": {
-      "status": "starting",
-      "observedAt": "2026-10-29",
-      "kind": "official",
-      "sourceName": "岩手県観光協会（いわての旅）",
-      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
     },
     "fukuoka-akizuki": {
       "status": "green",
