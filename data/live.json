@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02T21:43:58Z",
+  "generatedAt": "2026-11-03T06:53:22Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -10,24 +10,24 @@
   },
   "reports": {
     "nikko-ryuzu": {
-      "status": "full",
-      "observedAt": "2026-10-26",
+      "status": "past",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-yutaki": {
-      "status": "full",
-      "observedAt": "2026-10-26",
+      "status": "past",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-senjogahara": {
-      "status": "full",
-      "observedAt": "2026-10-26",
+      "status": "past",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -35,23 +35,23 @@
     },
     "nikko-odashiro": {
       "status": "past",
-      "observedAt": "2026-10-27",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-chuzenji": {
-      "status": "full",
-      "observedAt": "2026-10-26",
+      "status": "past",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-iroha": {
-      "status": "peak",
-      "observedAt": "2026-10-29",
+      "status": "full",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -59,15 +59,15 @@
     },
     "nikko-kirifuri": {
       "status": "past",
-      "observedAt": "2026-10-27",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-ryuokyo": {
-      "status": "starting",
-      "observedAt": "2026-11-02",
+      "status": "peak",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -75,7 +75,7 @@
     },
     "nikko-momiji": {
       "status": "full",
-      "observedAt": "2026-11-02",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -83,7 +83,7 @@
     },
     "nikko-heike": {
       "status": "full",
-      "observedAt": "2026-11-02",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -91,7 +91,7 @@
     },
     "nikko-kirifuri-falls": {
       "status": "full",
-      "observedAt": "2026-10-26",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -99,7 +99,7 @@
     },
     "nikko-temples": {
       "status": "starting",
-      "observedAt": "2026-10-29",
+      "observedAt": "2026-11-03",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -275,7 +275,9 @@
         "name": "盛岡",
         "lat": 39.6983,
         "lon": 141.165,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-02"
+        }
       },
       {
         "name": "山形",
