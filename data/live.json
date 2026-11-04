@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-04T17:18:32Z",
+  "generatedAt": "2026-11-04T23:43:37Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -263,13 +263,17 @@
         "name": "青森",
         "lat": 40.8217,
         "lon": 140.7683,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-04"
+        }
       },
       {
         "name": "秋田",
         "lat": 39.7167,
         "lon": 140.0983,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-04"
+        }
       },
       {
         "name": "盛岡",
