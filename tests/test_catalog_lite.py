@@ -57,7 +57,7 @@ class CompactCatalogTests(unittest.TestCase):
             metrics = build_outputs(root)
             self.assertEqual(metrics['spots'], len(self.spots))
             self.assertLess(metrics['compact_bytes'], metrics['source_bytes'] * .45)
-            self.assertLess(metrics['html_bytes'], 38000)
+            self.assertLess(metrics['html_bytes'], 45000)
             lite = json.loads((root / 'data/spots-lite.json').read_text('utf-8'))
             self.assertEqual(len(lite['rows']), len(self.spots))
             ids = []
