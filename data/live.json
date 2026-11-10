@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-11-08T22:09:55Z",
+  "generatedAt": "2026-11-10T06:05:06Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
     "iwateTourism": "ok (8)",
-    "fukuokaTourism": "ok (1)",
+    "fukuokaTourism": "ok (5)",
     "jmaPhenology": "ok (52 stations, kaedeKoyo:ok, ichouKoyo:ok, kaedeRakuyo:ok, ichouRakuyo:ok)",
     "communityReports": "ok (0)"
   },
   "reports": {
     "nikko-ryuzu": {
       "status": "past",
-      "observedAt": "2026-11-03",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -19,7 +19,7 @@
     },
     "nikko-yutaki": {
       "status": "past",
-      "observedAt": "2026-11-03",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -27,7 +27,7 @@
     },
     "nikko-senjogahara": {
       "status": "past",
-      "observedAt": "2026-11-04",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -35,7 +35,7 @@
     },
     "nikko-odashiro": {
       "status": "past",
-      "observedAt": "2026-11-03",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -43,7 +43,7 @@
     },
     "nikko-chuzenji": {
       "status": "past",
-      "observedAt": "2026-11-07",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -59,15 +59,15 @@
     },
     "nikko-kirifuri": {
       "status": "past",
-      "observedAt": "2026-11-03",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-ryuokyo": {
-      "status": "peak",
-      "observedAt": "2026-11-04",
+      "status": "full",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -75,7 +75,7 @@
     },
     "nikko-momiji": {
       "status": "full",
-      "observedAt": "2026-11-07",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -83,7 +83,7 @@
     },
     "nikko-heike": {
       "status": "full",
-      "observedAt": "2026-11-07",
+      "observedAt": "2026-11-09",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -208,6 +208,38 @@
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
       "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "wiki-b1ab2539e9862b": {
+      "status": "green",
+      "observedAt": "2026-11-09",
+      "kind": "official",
+      "sourceName": "福岡県観光連盟（クロスロードふくおか）",
+      "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "wiki-a82823ddd4db85": {
+      "status": "green",
+      "observedAt": "2026-11-08",
+      "kind": "official",
+      "sourceName": "福岡県観光連盟（クロスロードふくおか）",
+      "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "wiki-fd182e8d97daba": {
+      "status": "green",
+      "observedAt": "2026-11-09",
+      "kind": "official",
+      "sourceName": "福岡県観光連盟（クロスロードふくおか）",
+      "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "fukuoka-hikosan": {
+      "status": "starting",
+      "observedAt": "2026-11-09",
+      "kind": "official",
+      "sourceName": "福岡県観光連盟（クロスロードふくおか）",
+      "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
     }
   },
   "phenology": {
@@ -229,7 +261,9 @@
         "name": "札幌",
         "lat": 43.06,
         "lon": 141.3283,
-        "events": {}
+        "events": {
+          "kaedeKoyo": "2026-11-09"
+        }
       },
       {
         "name": "帯広",
@@ -237,7 +271,9 @@
         "lon": 143.2117,
         "events": {
           "kaedeKoyo": "2026-10-30",
-          "ichouKoyo": "2026-11-05"
+          "ichouKoyo": "2026-11-05",
+          "kaedeRakuyo": "2026-11-09",
+          "ichouRakuyo": "2026-11-09"
         }
       },
       {
