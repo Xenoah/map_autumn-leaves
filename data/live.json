@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T21:19:33Z",
+  "generatedAt": "2026-11-11T06:30:49Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -203,7 +203,7 @@
     },
     "fukuoka-akizuki": {
       "status": "green",
-      "observedAt": "2026-10-29",
+      "observedAt": "2026-11-10",
       "kind": "official",
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
@@ -234,8 +234,8 @@
       "note": "公式サイトの色づき表記を反映（掲載日）"
     },
     "fukuoka-hikosan": {
-      "status": "starting",
-      "observedAt": "2026-11-09",
+      "status": "peak",
+      "observedAt": "2026-11-11",
       "kind": "official",
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
@@ -262,7 +262,8 @@
         "lat": 43.06,
         "lon": 141.3283,
         "events": {
-          "kaedeKoyo": "2026-11-09"
+          "kaedeKoyo": "2026-11-09",
+          "ichouRakuyo": "2026-11-10"
         }
       },
       {
@@ -342,7 +343,9 @@
         "name": "福島",
         "lat": 37.7583,
         "lon": 140.47,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-10"
+        }
       },
       {
         "name": "新潟",
