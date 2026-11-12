@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T17:12:17Z",
+  "generatedAt": "2026-11-12T00:47:05Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -298,7 +298,8 @@
         "lon": 140.7533,
         "events": {
           "kaedeKoyo": "2026-11-06",
-          "ichouKoyo": "2026-11-06"
+          "ichouKoyo": "2026-11-06",
+          "ichouRakuyo": "2026-11-11"
         }
       },
       {
