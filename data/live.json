@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T19:58:10Z",
+  "generatedAt": "2026-11-13T01:51:49Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -67,7 +67,7 @@
     },
     "nikko-ryuokyo": {
       "status": "full",
-      "observedAt": "2026-11-09",
+      "observedAt": "2026-11-13",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -352,7 +352,9 @@
         "name": "新潟",
         "lat": 37.8933,
         "lon": 139.0183,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-12"
+        }
       },
       {
         "name": "金沢",
@@ -372,7 +374,9 @@
         "name": "長野",
         "lat": 36.6617,
         "lon": 138.1917,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-12"
+        }
       },
       {
         "name": "宇都宮",
