@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-15T06:39:34Z",
+  "generatedAt": "2026-11-15T16:24:27Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
-    "iwateTourism": "fetch-failed:HTTPError",
+    "iwateTourism": "ok (8)",
     "fukuokaTourism": "ok (5)",
     "jmaPhenology": "ok (52 stations, kaedeKoyo:ok, ichouKoyo:ok, kaedeRakuyo:ok, ichouRakuyo:ok)",
     "communityReports": "ok (0)"
@@ -136,6 +136,70 @@
       "sourceName": "立山黒部アルペンルート",
       "sourceUrl": "https://www.alpen-route.com/autumn-leaves/",
       "note": "10月16日の公式色づき一覧で室堂平は「落葉」。高山は積雪に注意。"
+    },
+    "iwate-hachimantai": {
+      "status": "past",
+      "observedAt": "2026-11-11",
+      "kind": "official",
+      "sourceName": "岩手県観光協会（いわての旅）",
+      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "iwate-chusonji": {
+      "status": "peak",
+      "observedAt": "2026-11-11",
+      "kind": "official",
+      "sourceName": "岩手県観光協会（いわての旅）",
+      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "iwate-genbikei": {
+      "status": "past",
+      "observedAt": "2026-11-11",
+      "kind": "official",
+      "sourceName": "岩手県観光協会（いわての旅）",
+      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "wiki-28af1128788ace": {
+      "status": "past",
+      "observedAt": "2026-11-11",
+      "kind": "official",
+      "sourceName": "岩手県観光協会（いわての旅）",
+      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "wiki-8eb1da7eaa7ce7": {
+      "status": "past",
+      "observedAt": "2026-11-11",
+      "kind": "official",
+      "sourceName": "岩手県観光協会（いわての旅）",
+      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "wiki-51746474510660": {
+      "status": "peak",
+      "observedAt": "2026-11-11",
+      "kind": "official",
+      "sourceName": "岩手県観光協会（いわての旅）",
+      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "wiki-7b2f105f7d230f": {
+      "status": "peak",
+      "observedAt": "2026-11-11",
+      "kind": "official",
+      "sourceName": "岩手県観光協会（いわての旅）",
+      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
+    },
+    "wiki-7d8d8d3b2d7367": {
+      "status": "peak",
+      "observedAt": "2026-11-11",
+      "kind": "official",
+      "sourceName": "岩手県観光協会（いわての旅）",
+      "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
+      "note": "公式サイトの色づき表記を反映（掲載日）"
     },
     "fukuoka-akizuki": {
       "status": "green",
