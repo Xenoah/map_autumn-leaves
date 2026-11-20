@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-19T20:41:35Z",
+  "generatedAt": "2026-11-20T02:21:42Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
     "iwateTourism": "ok (8)",
-    "fukuokaTourism": "ok (6)",
+    "fukuokaTourism": "ok (5)",
     "jmaPhenology": "ok (52 stations, kaedeKoyo:ok, ichouKoyo:ok, kaedeRakuyo:ok, ichouRakuyo:ok)",
     "communityReports": "ok (0)"
   },
@@ -67,7 +67,7 @@
     },
     "nikko-ryuokyo": {
       "status": "full",
-      "observedAt": "2026-11-19",
+      "observedAt": "2026-11-20",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -75,7 +75,7 @@
     },
     "nikko-momiji": {
       "status": "full",
-      "observedAt": "2026-11-16",
+      "observedAt": "2026-11-20",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -201,17 +201,9 @@
       "sourceUrl": "https://iwatetabi.jp/flower/autumnleaves/",
       "note": "公式サイトの色づき表記を反映（掲載日）"
     },
-    "fukuoka-akizuki": {
-      "status": "starting",
-      "observedAt": "2026-11-16",
-      "kind": "official",
-      "sourceName": "福岡県観光連盟（クロスロードふくおか）",
-      "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
     "fukuoka-kamado": {
       "status": "peak",
-      "observedAt": "2026-11-17",
+      "observedAt": "2026-11-18",
       "kind": "official",
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
@@ -311,6 +303,7 @@
         "events": {
           "kaedeKoyo": "2026-11-06",
           "ichouKoyo": "2026-11-06",
+          "kaedeRakuyo": "2026-11-19",
           "ichouRakuyo": "2026-11-11"
         }
       },
@@ -320,7 +313,9 @@
         "lon": 140.7683,
         "events": {
           "kaedeKoyo": "2026-11-06",
-          "ichouKoyo": "2026-11-04"
+          "ichouKoyo": "2026-11-04",
+          "kaedeRakuyo": "2026-11-19",
+          "ichouRakuyo": "2026-11-19"
         }
       },
       {
@@ -355,7 +350,9 @@
         "name": "仙台",
         "lat": 38.2617,
         "lon": 140.8967,
-        "events": {}
+        "events": {
+          "kaedeKoyo": "2026-11-19"
+        }
       },
       {
         "name": "福島",
@@ -380,7 +377,8 @@
         "lat": 36.5883,
         "lon": 136.6333,
         "events": {
-          "ichouKoyo": "2026-10-26"
+          "ichouKoyo": "2026-10-26",
+          "ichouRakuyo": "2026-11-19"
         }
       },
       {
@@ -396,6 +394,7 @@
         "lat": 36.6617,
         "lon": 138.1917,
         "events": {
+          "kaedeKoyo": "2026-11-19",
           "ichouKoyo": "2026-11-12"
         }
       },
@@ -415,7 +414,9 @@
         "name": "前橋",
         "lat": 36.405,
         "lon": 139.06,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-19"
+        }
       },
       {
         "name": "熊谷",
