@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-23T01:46:26Z",
+  "generatedAt": "2026-11-23T12:53:08Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -43,7 +43,7 @@
     },
     "nikko-chuzenji": {
       "status": "past",
-      "observedAt": "2026-11-19",
+      "observedAt": "2026-11-23",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -51,7 +51,7 @@
     },
     "nikko-iroha": {
       "status": "past",
-      "observedAt": "2026-11-19",
+      "observedAt": "2026-11-23",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -67,7 +67,7 @@
     },
     "nikko-ryuokyo": {
       "status": "full",
-      "observedAt": "2026-11-20",
+      "observedAt": "2026-11-23",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -75,7 +75,7 @@
     },
     "nikko-momiji": {
       "status": "full",
-      "observedAt": "2026-11-20",
+      "observedAt": "2026-11-23",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -90,8 +90,8 @@
       "note": "公式サイトの色づき段階を反映（現地観測時刻とは異なる場合あり）"
     },
     "nikko-kirifuri-falls": {
-      "status": "full",
-      "observedAt": "2026-11-07",
+      "status": "past",
+      "observedAt": "2026-11-23",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
@@ -99,7 +99,7 @@
     },
     "nikko-temples": {
       "status": "full",
-      "observedAt": "2026-11-11",
+      "observedAt": "2026-11-23",
       "kind": "official",
       "sourceName": "日光市観光協会",
       "sourceUrl": "https://www.nikko-kankou.org/flowering/autumn-leaves",
