@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-24T13:48:56Z",
+  "generatedAt": "2026-11-24T23:55:10Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -397,7 +397,8 @@
         "lon": 138.1917,
         "events": {
           "kaedeKoyo": "2026-11-19",
-          "ichouKoyo": "2026-11-12"
+          "ichouKoyo": "2026-11-12",
+          "ichouRakuyo": "2026-11-24"
         }
       },
       {
@@ -474,7 +475,9 @@
         "name": "東京",
         "lat": 35.6917,
         "lon": 139.75,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-24"
+        }
       },
       {
         "name": "横浜",
@@ -517,6 +520,7 @@
         "lat": 34.3983,
         "lon": 132.4617,
         "events": {
+          "kaedeKoyo": "2026-11-24",
           "ichouKoyo": "2026-11-20"
         }
       },
@@ -542,7 +546,9 @@
         "name": "和歌山",
         "lat": 34.2283,
         "lon": 135.1633,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-24"
+        }
       },
       {
         "name": "奈良",
