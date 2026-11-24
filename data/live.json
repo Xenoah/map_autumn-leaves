@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-23T12:53:08Z",
+  "generatedAt": "2026-11-24T02:14:42Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -203,7 +203,7 @@
     },
     "fukuoka-kamado": {
       "status": "peak",
-      "observedAt": "2026-11-18",
+      "observedAt": "2026-11-24",
       "kind": "official",
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
@@ -218,8 +218,8 @@
       "note": "公式サイトの色づき表記を反映（掲載日）"
     },
     "wiki-a82823ddd4db85": {
-      "status": "peak",
-      "observedAt": "2026-11-18",
+      "status": "past",
+      "observedAt": "2026-11-23",
       "kind": "official",
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
