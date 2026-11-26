@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T19:20:37Z",
+  "generatedAt": "2026-11-26T03:36:30Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -344,7 +344,8 @@
         "lat": 38.255,
         "lon": 140.345,
         "events": {
-          "ichouKoyo": "2026-11-18"
+          "ichouKoyo": "2026-11-18",
+          "ichouRakuyo": "2026-11-25"
         }
       },
       {
@@ -371,7 +372,8 @@
         "lon": 139.0183,
         "events": {
           "kaedeKoyo": "2026-11-20",
-          "ichouKoyo": "2026-11-12"
+          "ichouKoyo": "2026-11-12",
+          "ichouRakuyo": "2026-11-25"
         }
       },
       {
@@ -574,7 +576,9 @@
         "name": "大分",
         "lat": 33.235,
         "lon": 131.6183,
-        "events": {}
+        "events": {
+          "kaedeKoyo": "2026-11-25"
+        }
       },
       {
         "name": "長崎",
