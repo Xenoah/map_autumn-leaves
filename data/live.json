@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-27T01:45:40Z",
+  "generatedAt": "2026-11-27T12:29:27Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
     "iwateTourism": "ok (8)",
-    "fukuokaTourism": "ok (5)",
+    "fukuokaTourism": "ok (4)",
     "jmaPhenology": "ok (52 stations, kaedeKoyo:ok, ichouKoyo:ok, kaedeRakuyo:ok, ichouRakuyo:ok)",
     "communityReports": "ok (0)"
   },
@@ -225,17 +225,9 @@
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
       "note": "公式サイトの色づき表記を反映（掲載日）"
     },
-    "wiki-fd182e8d97daba": {
-      "status": "starting",
-      "observedAt": "2026-11-17",
-      "kind": "official",
-      "sourceName": "福岡県観光連盟（クロスロードふくおか）",
-      "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
-      "note": "公式サイトの色づき表記を反映（掲載日）"
-    },
     "fukuoka-hikosan": {
-      "status": "peak",
-      "observedAt": "2026-11-19",
+      "status": "past",
+      "observedAt": "2026-11-25",
       "kind": "official",
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
