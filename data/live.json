@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T16:57:54Z",
+  "generatedAt": "2026-11-27T01:45:40Z",
   "schemaVersion": 1,
   "sources": {
     "nikkoOfficial": "ok (12)",
@@ -203,7 +203,7 @@
     },
     "fukuoka-kamado": {
       "status": "peak",
-      "observedAt": "2026-11-24",
+      "observedAt": "2026-11-27",
       "kind": "official",
       "sourceName": "福岡県観光連盟（クロスロードふくおか）",
       "sourceUrl": "https://www.crossroadfukuoka.jp/feature/autumn",
@@ -363,6 +363,7 @@
         "events": {
           "kaedeKoyo": "2026-11-17",
           "ichouKoyo": "2026-11-10",
+          "kaedeRakuyo": "2026-11-26",
           "ichouRakuyo": "2026-11-18"
         }
       },
@@ -602,7 +603,10 @@
         "name": "宮崎",
         "lat": 31.9383,
         "lon": 131.4133,
-        "events": {}
+        "events": {
+          "kaedeKoyo": "2026-11-26",
+          "ichouKoyo": "2026-11-26"
+        }
       },
       {
         "name": "松山",
@@ -614,13 +618,17 @@
         "name": "高松",
         "lat": 34.3183,
         "lon": 134.0533,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-26"
+        }
       },
       {
         "name": "高知",
         "lat": 33.5667,
         "lon": 133.5483,
-        "events": {}
+        "events": {
+          "ichouKoyo": "2026-11-26"
+        }
       },
       {
         "name": "徳島",
